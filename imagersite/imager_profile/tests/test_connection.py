@@ -71,10 +71,8 @@ class MultipleUserRelationshipTestCase(TestCase):
         self.assertTrue(self.titan in self.warlock.following.all())
 
     def test_reverse_follow_method(self):
-        titan_followers = models.ImagerProfile.objects.select_related()
-        # raise Exception(type(titan_followers[0]))
-        # raise Exception(dir(titan_followers[0]))
-        # self.assertTrue(self.warlock in titan_followers)
+        titan_followers = self.titan.followers.all()
+        self.assertTrue(self.warlock in titan_followers)
 
     def test_unfollow_method(self):
         self.warlock.unfollow('titan')

@@ -12,7 +12,7 @@ class ImagerProfile(models.Model):
     personality_type = models.CharField(max_length=4)
     category = models.CharField(max_length=255)
     github = models.URLField(blank=True)
-    following = models.ManyToManyField('self') #, related_name="followers") # ManyToMany relationships are handled differently in Django
+    following = models.ManyToManyField('self', related_name="followers", symmetrical=False)
 
     @property
     def is_active(self):
