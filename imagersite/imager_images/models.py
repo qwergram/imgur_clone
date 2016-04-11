@@ -27,7 +27,7 @@ class Photo(models.Model, MetaDataMixin):
     def __str__(self):
         return self.title
 
-    photo = models.ImageField()
+    photo = models.ImageField(upload_to='media')
 
 
 class Album(models.Model, MetaDataMixin):
