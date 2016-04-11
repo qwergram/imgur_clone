@@ -3,9 +3,12 @@ from django.db import models
 
 # Create your models here.
 
-class ImagerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    @property
-    def is_active(self):
-        return self.active
+class ImagerProfile(models.Model):
+    def __str__(self):
+        return self.user.username
+    user = models.OneToOneField(User)
+    camera = models.CharField(max_length=255)
+    personality_type = models.CharField(max_length=4)
+    category = models.CharField(max_length=255)
+    github = models.URLField(blank=True)
