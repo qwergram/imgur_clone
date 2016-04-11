@@ -8,7 +8,7 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = User
 
 
-class UserTestCase(TestCase):
+class SingleUserCreationTestCase(TestCase):
 
     def setUp(self):
         self.user = UserFactory.create(
@@ -38,3 +38,43 @@ class UserTestCase(TestCase):
 
     def test_profile_string(self):
         self.assertEqual(str(self.profile), 'warlock')
+
+    def test_query_from_imager(self):
+        query = models.ImagerProfile.objects.get(user__username__exact='warlock')
+        self.assertEqual(query, self.profile)
+
+
+class MultipleUserRelationshipTestCase(TestCase):
+
+    def setUp(self):
+        "Create a dictionary of profile objects"
+        users = {}
+        for username in 'warlock titan hunter'.split():
+            users[username] = UserFactory.create(
+                username=username,
+            )
+            users[username].set_password('pulse_rifle')
+            users[username].save()
+            users[username] = users[username].profile
+
+        self.warlock = users['warlock']
+        self.titan = users['titan']
+        self.hunter = users['hunter']
+        self.warlock.follow('titan')
+        self.hunter.follow('warlock')
+        self.warlock.save()
+        self.hunter.save()
+        self.titan.save()
+
+    def test_follow_method(self):
+        self.assertTrue(self.titan in self.warlock.following.all())
+
+    def test_reverse_follow_method(self):
+        titan_followers = models.ImagerProfile.objects.select_related()
+        # raise Exception(type(titan_followers[0]))
+        # raise Exception(dir(titan_followers[0]))
+        # self.assertTrue(self.warlock in titan_followers)
+
+    def test_unfollow_method(self):
+        self.warlock.unfollow('titan')
+        self.assertFalse(self.titan in self.warlock.following.all())
