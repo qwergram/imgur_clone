@@ -13,3 +13,7 @@ class ImagerProfile(models.Model):
     category = models.CharField(max_length=255)
     github = models.URLField(blank=True)
     following = models.ManyToManyField(ImagerProfile, related_name="folowers")
+
+    @property
+    def is_active(self):
+        return self.user.is_active
