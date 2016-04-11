@@ -12,8 +12,12 @@ class ImagerProfile(models.Model):
     personality_type = models.CharField(max_length=4)
     category = models.CharField(max_length=255)
     github = models.URLField(blank=True)
-    following = models.ManyToManyField('self', related_name="folowers")
+    following = models.ManyToManyField('self', related_name="followers")
 
     @property
     def is_active(self):
         return self.user.is_active
+
+    def follow(self, target):
+        profile = ImagerProfile.objects.get(user__username__exact=target)
+        self.following.add(profile)
