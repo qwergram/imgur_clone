@@ -7,8 +7,9 @@ from django.db import models
 class ImagerProfile(models.Model):
     def __str__(self):
         return self.user.username
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name="profile")
     camera = models.CharField(max_length=255)
     personality_type = models.CharField(max_length=4)
     category = models.CharField(max_length=255)
     github = models.URLField(blank=True)
+    following = models.ManyToManyField(ImagerProfile, related_name="folowers")
