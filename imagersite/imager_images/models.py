@@ -34,7 +34,7 @@ class Album(models.Model, MetaDataMixin):
     "A collection of photos that be uploaded by a user."
     def __str__(self):
         return self.title
-    photos = models.ManyToOneRel(Photo)
+    photos = models.ManyToManyField('Photo', related_name='starred_in')
 
     @property
     def latest_modified(self):
