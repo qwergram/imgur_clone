@@ -9,6 +9,7 @@ privacy_choices = (
     ('OPEN', 'Public')
 )
 
+
 class MetaDataMixin:
     "Metadata that is related to both albums and photos."
     owner = models.ForeignKey(ImagerProfile)
@@ -18,6 +19,7 @@ class MetaDataMixin:
     date_uploaded = models.DateTimeField()
     date_modified = models.DateTimeField()
     date_published = models.DateTimeField()
+
 
 class Photo(models.Model, MetaDataMixin):
     "A single photo that can be uploaded by a user."
