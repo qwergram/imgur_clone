@@ -8,6 +8,7 @@ from logging import Logger
 
 logger = Logger(__name__)
 
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_imager_profile(sender, **kwargs):
     if kwargs.get('created', False):
