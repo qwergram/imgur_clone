@@ -8,6 +8,7 @@ class IndexPageDefaultViewTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
+        self.response = self.client.get('/')
         self.user = UserFactory.create(
             username='warlock',
         )
@@ -15,12 +16,14 @@ class IndexPageDefaultViewTestCase(TestCase):
         self.user.save()
 
     def test_index_view_exists(self):
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.response.status_code, 200)
 
     def test_404_happens(self):
         response = self.client.get('/invalid/url/nothing/here')
         self.assertEqual(response.status_code, 404)
+
+    def test_index_contains_proper_static_links(self):
+        self.assertTrue('/static/imager_profile/assets/css/main.css' in self.response.content.decode())
 
 
 class StaticFilesTestCase(TestCase):
