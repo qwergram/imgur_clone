@@ -5,6 +5,18 @@ import os
 import io
 
 
+class LoginPageViewTestCase(TestCase):
+    pass
+
+
+class LogoutPageViewTestCase(TestCase):
+    pass
+
+
+class RegisterPageViewTestCase(TestCase):
+    pass
+
+
 class IndexPageDefaultViewTestCase(TestCase):
 
     def setUp(self):
