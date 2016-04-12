@@ -20,9 +20,9 @@ class Photo(models.Model):
     title = models.CharField(max_length=255, default="Example Title")
     description = models.TextField(default="Write a short description about your photo!")
     published = models.CharField(choices=privacy_choices, max_length=16, default="UNLISTED")
-    date_uploaded = models.DateTimeField(auto_now_add=True, blank=True)
-    date_modified = models.DateTimeField(auto_now=True, blank=True)
-    date_published = models.DateTimeField(blank=True)
+    date_uploaded = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    date_modified = models.DateTimeField(auto_now=True, null=True, blank=True)
+    date_published = models.DateTimeField(null=True, blank=True)
 
     photo = models.ImageField(upload_to='media')
 
