@@ -18,10 +18,17 @@ from django.contrib import admin
 from imagersite import settings
 from django.conf.urls.static import static
 
-urlpatterns = [
+from imager_profile.views import index_view
+
+profile_patterns = [
+    url(r'^$', index_view),
+]
+
+admin_patterns = [
     url(r'^admin/', admin.site.urls),
 ]
 
+urlpatterns = profile_patterns + admin_patterns
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
