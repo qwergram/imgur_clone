@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from django.test import TestCase
 from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.contrib.auth.models import User
+from imager_profile.tests.test_connection import UserFactory
 from imager_images.models import Photo, Album, privacy_choices
 import factory
 import random
@@ -16,15 +16,6 @@ help me learn and understand how Factories and Relationship models work. The
 best way that I learn was by building tests.
 
 """
-
-class UserFactory(factory.django.DjangoModelFactory):
-
-    class Meta:
-        model = User
-
-    username = factory.Faker('word')
-    password = factory.PostGenerationMethodCall('set_password', 'secret')
-
 
 class PhotoFactory(factory.django.DjangoModelFactory):
 

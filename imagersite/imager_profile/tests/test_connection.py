@@ -5,8 +5,13 @@ from imager_profile import models
 
 
 class UserFactory(factory.django.DjangoModelFactory):
+
     class Meta:
         model = User
+
+    username = factory.Faker('word')
+    password = factory.PostGenerationMethodCall('set_password', 'secret')
+
 
 
 class SingleUserCreationTestCase(TestCase):
@@ -24,6 +29,9 @@ class SingleUserCreationTestCase(TestCase):
 
     def test_profile_created(self):
         self.assertTrue(models.ImagerProfile.objects.all())
+
+    def test_profile_pk_assigned(self):
+        self.assertTrue(self.user.pk)
 
     def test_user_to_profile_connection_created(self):
         self.assertTrue(hasattr(self.user, 'profile'))
