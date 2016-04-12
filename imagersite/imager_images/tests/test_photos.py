@@ -1,49 +1,56 @@
+from __future__ import unicode_literals
 from django.test import TestCase
-from django.contrib.auth.models import User
-import factory
-from imager_images import models
-from imager_profile.models import ImagerProfile
+from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
-import io
-import mock
-
-class PhotoFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.Photo
+from django.contrib.auth.models import User
+from imager_images.models import Photo, Album, privacy_choices
+import factory
+import random
 
 
 class UserFactory(factory.django.DjangoModelFactory):
+
     class Meta:
         model = User
 
-class SinglePhotoUploadTestCase(TestCase):
+    username = factory.Faker('word')
+    password = factory.PostGenerationMethodCall('set_password', 'secret')
+
+
+class PhotoFactory(factory.django.DjangoModelFactory):
+
+    class Meta:
+        model = Photo
+
+    title = factory.Faker('sentence')
+    description = factory.Faker('text')
+    published = random.choice(privacy_choices)
+    owner = factory.SubFactory(UserFactory, username='BestUser')
+    images = SimpleUploadedFile(name="bg.jpg", content=b"almost an image", content_type='text/png')
+
+
+class AlbumFactory(factory.django.DjangoModelFactory):
+
+    class Meta:
+        model = Album
+
+    title = factory.Faker('sentence')
+    description = factory.Faker('text')
+    published = random.choice(privacy_choices)
+    owner = factory.SubFactory(UserFactory, username='BestUser')
+
+
+class SingleImageTestCase(TestCase):
 
     def setUp(self):
-        self.norton = UserFactory.create(
-            username='nortonpengra'
-        )
+        self.norton = UserFactory.create()
         self.norton.save()
-        self.photo = PhotoFactory.create()
-        self.photo.owner = self.norton.profile
-        self.photo.title = 'Some photo',
-        self.photo.description = 'Hello World! My name is Norton Pengra!',
-        self.photo.published = 'CLOSED',
-        # self.photo.photo = SimpleUploadedFile(
-        #     name="bg.png",
-        #     # file='imagersite/static/bg.jpg',
-        #     content=io.open('imagersite/static/bg.jpg', 'rb').read(),
-        #     content_type="image/jpg"
-        # )[0],
 
+        self.photo = PhotoFactory()
         self.photo.save()
 
-    def test_photo_upload_successful(self):
-        self.assertTrue(self.photo.id)
+    def test_user_created(self):
+        self.assertTrue(self.norton.pk)
 
-    def test_meta_mixin_works(self):
-        photo = PhotoFactory.create()
-        self.assertTrue(hasattr(photo, 'owner'))
-        self.assertTrue(hasattr(photo, 'title'))
-        self.assertTrue(hasattr(photo, 'description'))
-        self.assertTrue(hasattr(photo, 'published'))
-        self.assertTrue(hasattr(photo, 'photo'))
+    def test_photo_created(self):
+        self.assertTrue(self.photo.pk)
