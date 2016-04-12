@@ -16,9 +16,9 @@ class MetaDataMixin:
     title = models.CharField(max_length=255)
     description = models.TextField()
     published = models.CharField(choices=privacy_choices, max_length=16)
-    date_uploaded = models.DateTimeField()
-    date_modified = models.DateTimeField()
-    date_published = models.DateTimeField()
+    date_uploaded = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    date_published = models.DateTimeField(blank=True)
 
 
 class Photo(models.Model, MetaDataMixin):
