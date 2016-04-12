@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from imager_profile.views import IndexView
 
 hmac_patterns = [
-    url('^accounts/', include('registration.backends.hmac.urls'))
+    url(r'^accounts/', include('registration.backends.hmac.urls'))
 ]
 
 profile_patterns = [
