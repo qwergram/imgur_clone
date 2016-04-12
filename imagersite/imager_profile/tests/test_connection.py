@@ -13,7 +13,6 @@ class UserFactory(factory.django.DjangoModelFactory):
     password = factory.PostGenerationMethodCall('set_password', 'secret')
 
 
-
 class SingleUserCreationTestCase(TestCase):
 
     def setUp(self):
