@@ -10,8 +10,28 @@ privacy_choices = (
 )
 
 
-class MetaDataMixin:
-    "Metadata that is related to both albums and photos."
+class Photo(models.Model):
+    "A single photo that can be uploaded by a user."
+
+    def __str__(self):
+        return self.title
+
+    owner = models.ForeignKey(ImagerProfile)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    published = models.CharField(choices=privacy_choices, max_length=16)
+    date_uploaded = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    date_published = models.DateTimeField(blank=True, null=True)
+
+    photo = models.ImageField(upload_to='media')
+
+
+class Album(models.Model):
+    "A collection of photos that be uploaded by a user."
+    def __str__(self):
+        return self.title
+
     owner = models.ForeignKey(ImagerProfile)
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -20,20 +40,6 @@ class MetaDataMixin:
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(blank=True)
 
-
-class Photo(models.Model, MetaDataMixin):
-    "A single photo that can be uploaded by a user."
-
-    def __str__(self):
-        return self.title
-
-    photo = models.ImageField(upload_to='media')
-
-
-class Album(models.Model, MetaDataMixin):
-    "A collection of photos that be uploaded by a user."
-    def __str__(self):
-        return self.title
     photos = models.ManyToManyField('Photo', related_name='starred_in')
 
     @property
@@ -50,3 +56,13 @@ class Album(models.Model, MetaDataMixin):
     def latest_uploaded(self):
         "Get the latest uploaded photo"
         return self.photos.order_by('-date_uploaded')[0]
+
+    def add_photo(self, photo):
+        if photo and isinstance(photo, str):
+            photo_result = Photo.objects.get(title=photo)
+            if photo_result:
+                photo = photo_result
+        if not isinstance(photo, Photo):
+            raise TypeError("%s is not a Photo or str object (%s)" % (Photo, type(photo)))
+
+        self.photos.add(photo)
