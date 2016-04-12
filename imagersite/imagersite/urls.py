@@ -13,12 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from imagersite import settings
 from django.conf.urls.static import static
 
 from imager_profile.views import IndexView
+
+hmac_patterns = [
+    url('^accounts/', include('registration.backends.hmac.urls'))
+]
 
 profile_patterns = [
     url(r'^$', IndexView.as_view()),
@@ -28,7 +32,7 @@ admin_patterns = [
     url(r'^admin/', admin.site.urls),
 ]
 
-urlpatterns = profile_patterns + admin_patterns
+urlpatterns = profile_patterns + admin_patterns + hmac_patterns
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
