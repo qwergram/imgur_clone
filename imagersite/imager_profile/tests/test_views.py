@@ -25,6 +25,19 @@ class IndexPageDefaultViewTestCase(TestCase):
     def test_index_contains_proper_static_links(self):
         self.assertTrue('/static/imager_profile/assets/css/main.css' in self.response.content.decode())
 
+    def test_index_handles_lt_ie8(self):
+        self.assertTrue('/static/imager_profile/assets/js/ie/html5shiv.js' in self.response.content.decode())
+        self.assertTrue('/static/imager_profile/assets/js/ie/respond.min.js' in self.response.content.decode())
+        self.assertTrue('/static/imager_profile/assets/css/ie8.css' in self.response.content.decode())
+        self.assertTrue('/static/imager_profile/assets/css/ie9.css' in self.response.content.decode())
+
+
+    def test_javascript_libraries_load(self):
+        self.assertTrue('/static/imager_profile/assets/js/jquery.min.js' in self.response.content.decode())
+        self.assertTrue('/static/imager_profile/assets/js/skel.min.js' in self.response.content.decode())
+        self.assertTrue('/static/imager_profile/assets/js/util.js' in self.response.content.decode())
+        self.assertTrue('/static/imager_profile/assets/js/main.js' in self.response.content.decode())
+
 
 class StaticFilesTestCase(TestCase):
 
