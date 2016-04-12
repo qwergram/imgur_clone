@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from django.test import TestCase
 from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
-from imager_profile.tests.test_connection import UserFactory
+from imager_profile.tests.test_model import UserFactory
 from imager_images.models import Photo, Album, privacy_choices
 import factory
 import random
