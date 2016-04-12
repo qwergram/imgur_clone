@@ -4,6 +4,7 @@ from django.contrib.staticfiles import finders
 import os
 import io
 
+
 class IndexPageDefaultViewTestCase(TestCase):
 
     def setUp(self):
@@ -31,13 +32,14 @@ class IndexPageDefaultViewTestCase(TestCase):
         self.assertTrue('/static/imager_profile/assets/css/ie8.css' in self.response.content.decode())
         self.assertTrue('/static/imager_profile/assets/css/ie9.css' in self.response.content.decode())
 
-
     def test_javascript_libraries_load(self):
         self.assertTrue('/static/imager_profile/assets/js/jquery.min.js' in self.response.content.decode())
         self.assertTrue('/static/imager_profile/assets/js/skel.min.js' in self.response.content.decode())
         self.assertTrue('/static/imager_profile/assets/js/util.js' in self.response.content.decode())
         self.assertTrue('/static/imager_profile/assets/js/main.js' in self.response.content.decode())
 
+    def test_index_view_is_not_base_view(self):
+        self.assertFalse('<p>Hello World!</p>' in self.response.content.decode())
 
 class StaticFilesTestCase(TestCase):
 
