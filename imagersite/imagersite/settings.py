@@ -124,3 +124,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = './'
+
+
+# HMAC Registration Settings
+ACCOUNT_ACTIVATION_DAYS = 7
