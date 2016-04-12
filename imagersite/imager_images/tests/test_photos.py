@@ -61,7 +61,9 @@ class SingleAlbumTestCase(TestCase):
         )
         self.album.save()
 
-        for photo_title in ['hello%s' % x for x in range(10)]:
+        self.photo_titles = ['hello%s' % x for x in range(10)]
+
+        for photo_title in self.photo_titles:
             photo = PhotoFactory(
                 owner=self.norton
             )
@@ -81,8 +83,21 @@ class SingleAlbumTestCase(TestCase):
     def test_album_owner_set_correctly(self):
         self.assertEqual(self.album.owner, self.norton)
 
-    def test_album_cover_set_correctly(self):
-        pass
+    def test_album_photos_set_correctly(self):
+        for title in self.photo_titles:
+            self.assertTrue(self.album.photos.get(title__exact=title))
+
+    def test_album_contains_attributes(self):
+        self.assertTrue(hasattr(self.album, 'title'))
+        self.assertTrue(hasattr(self.album, 'description'))
+        self.assertTrue(hasattr(self.album, 'photos'))
+        self.assertTrue(hasattr(self.album, 'latest_modified'))
+        self.assertTrue(hasattr(self.album, 'latest_uploaded'))
+        self.assertTrue(hasattr(self.album, 'latest_published'))
+        self.assertTrue(hasattr(self.album, 'add_photo'))
+        self.assertTrue(hasattr(self.album, 'cover_photo'))
+        self.assertTrue(hasattr(self.album, 'published'))
+
 
 class SingleImageTestCase(TestCase):
 
