@@ -17,12 +17,12 @@ class Photo(models.Model):
         return self.title
 
     owner = models.ForeignKey(ImagerProfile)
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    published = models.CharField(choices=privacy_choices, max_length=16)
-    date_uploaded = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-    date_published = models.DateTimeField(blank=True, null=True)
+    title = models.CharField(max_length=255, default="Example Title")
+    description = models.TextField(default="Write a short description about your photo!")
+    published = models.CharField(choices=privacy_choices, max_length=16, default="UNLISTED")
+    date_uploaded = models.DateTimeField(auto_now_add=True, blank=True)
+    date_modified = models.DateTimeField(auto_now=True, blank=True)
+    date_published = models.DateTimeField(blank=True)
 
     photo = models.ImageField(upload_to='media')
 
