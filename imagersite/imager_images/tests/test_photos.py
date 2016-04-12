@@ -25,8 +25,8 @@ class PhotoFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('sentence')
     description = factory.Faker('text')
     published = random.choice(privacy_choices)
-    owner = factory.SubFactory(UserFactory, username='BestUser')
-    images = SimpleUploadedFile(name="bg.jpg", content=b"almost an image", content_type='text/png')
+    # owner = factory.SubFactory(UserFactory, username='BestUser')
+    photo = SimpleUploadedFile(name="bg.jpg", content=b"almost an image", content_type='text/png')
 
 
 class AlbumFactory(factory.django.DjangoModelFactory):
@@ -37,7 +37,7 @@ class AlbumFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('sentence')
     description = factory.Faker('text')
     published = random.choice(privacy_choices)
-    owner = factory.SubFactory(UserFactory, username='BestUser')
+    # owner = factory.SubFactory(UserFactory, username='BestUser')
 
 
 class SingleImageTestCase(TestCase):
@@ -45,12 +45,11 @@ class SingleImageTestCase(TestCase):
     def setUp(self):
         self.norton = UserFactory.create()
         self.norton.save()
+        self.photo = PhotoFactory(
+            owner=self.norton.profile
+        )
 
-        self.photo = PhotoFactory()
         self.photo.save()
 
     def test_user_created(self):
         self.assertTrue(self.norton.pk)
-
-    def test_photo_created(self):
-        self.assertTrue(self.photo.pk)
