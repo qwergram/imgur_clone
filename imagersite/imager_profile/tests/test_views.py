@@ -6,7 +6,16 @@ import io
 
 
 class LoginPageViewTestCase(TestCase):
-    pass
+
+    def setUp(self):
+        self.client = Client()
+        self.response = self.client.get('/accounts/login/')
+
+    def test_login_view_exists(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_login_view_contains_a_form(self):
+        self.assertTrue('<form' in self.response.content.decode())
 
 
 class LogoutPageViewTestCase(TestCase):
