@@ -18,10 +18,10 @@ from django.contrib import admin
 from imagersite import settings
 from django.conf.urls.static import static
 
-from imager_profile.views import index_view
+from imager_profile.views import IndexView
 
 profile_patterns = [
-    url(r'^$', index_view),
+    url(r'^$', IndexView.as_view()),
 ]
 
 admin_patterns = [
