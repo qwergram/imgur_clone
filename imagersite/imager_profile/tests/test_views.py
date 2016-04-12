@@ -19,3 +19,13 @@ class IndexPageDefaultViewTestCase(TestCase):
     def test_404_happens(self):
         response = self.client.get('/invalid/url/nothing/here')
         self.assertEqual(response.status_code, 404)
+
+
+class StaticFilesTestCase(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_static_files_exist(self):
+        response = self.client.get('/static/imager_profile/LICENSE.txt')
+        self.assertEqual(response.status_code, 200)
