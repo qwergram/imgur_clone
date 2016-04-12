@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 
 # Create your models here.
@@ -7,7 +7,7 @@ from django.db import models
 class ImagerProfile(models.Model):
     def __str__(self):
         return self.user.username
-    user = models.OneToOneField(User, related_name="profile")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="profile")
     camera = models.CharField(max_length=255, blank=True)
     personality_type = models.CharField(max_length=4, blank=True)
     category = models.CharField(max_length=255, blank=True)
