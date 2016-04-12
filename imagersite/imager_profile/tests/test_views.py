@@ -1,6 +1,8 @@
 from django.test import TestCase, Client
 from imager_profile.tests.test_model import UserFactory
-
+from django.contrib.staticfiles import finders
+import os
+import io
 
 class IndexPageDefaultViewTestCase(TestCase):
 
@@ -24,8 +26,18 @@ class IndexPageDefaultViewTestCase(TestCase):
 class StaticFilesTestCase(TestCase):
 
     def setUp(self):
-        self.client = Client()
+        self.client = finders
+
+    def check_exists(self, path):
+        self.assertTrue(os.path.exists(path))
+
+    def check_file_is_correct(self, path, startswith):
+        self.assertTrue(io.open(path).read().startswith(startswith))
 
     def test_static_files_exist(self):
-        response = self.client.get('/static/imager_profile/LICENSE.txt')
-        self.assertEqual(response.status_code, 200)
+        path = self.client.find('imager_profile/LICENSE.txt')
+        self.check_exists(path)
+
+    def test_static_files_correct(self):
+        path = self.client.find('imager_profile/LICENSE.txt')
+        self.check_file_is_correct(path, 'Creative Commons Attribution 3.0 Unported')
