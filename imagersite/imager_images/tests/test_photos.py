@@ -61,7 +61,7 @@ class SingleAlbumTestCase(TestCase):
         )
         self.album.save()
 
-        self.photo_titles = ['hello%s' % x for x in range(10)]
+        self.photo_titles = [u'hello%s' % x for x in range(10)]
 
         for photo_title in self.photo_titles:
             photo = PhotoFactory(

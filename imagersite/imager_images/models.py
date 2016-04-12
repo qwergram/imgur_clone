@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django.db import models
 from imager_profile.models import ImagerProfile
 
@@ -41,6 +42,8 @@ class Album(models.Model):
     date_published = models.DateTimeField(blank=True)
 
     photos = models.ManyToManyField('Photo', related_name='starred_in')
+    cover_photo = models.ForeignKey(Photo, blank=True, null=True)
+
 
     @property
     def latest_modified(self):
@@ -58,6 +61,7 @@ class Album(models.Model):
         return self.photos.order_by('-date_uploaded')[0]
 
     def add_photo(self, photo):
+        photo = str(photo)
         if photo and isinstance(photo, str):
             photo_result = Photo.objects.get(title=photo)
             if photo_result:
