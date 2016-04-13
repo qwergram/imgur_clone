@@ -1,4 +1,5 @@
 from django.test import TestCase, Client
+from django.core import mail
 from imager_profile.tests.test_model import UserFactory
 from django.contrib.staticfiles import finders
 import os
@@ -77,6 +78,8 @@ class ProfileViewTestCase(TestCase):
     def test_register_doesnt_exist(self):
         self.assertFalse(' class="button big fit">Register</a></li>' in self.response.content.decode())
 
+    def test_username_appears(self):
+        self.assertTrue('kent' in self.response.content.decode())
 
 class LogoutPageViewTestCase(TestCase):
 
@@ -112,7 +115,7 @@ class RegisterPageViewTestCase(TestCase):
     def test_register_contains_forms(self):
         self.assertTrue('<form ' in self.response.content.decode())
 
-    def test_register_redirect(self):
+    def test_register_success(self):
         response = self.client.post('/accounts/register/', {
             "username": "kent",
             "email": "kent@hiscompany.com",
@@ -120,6 +123,17 @@ class RegisterPageViewTestCase(TestCase):
             "password2": "wabl"
         })
         self.assertEqual(response.status_code, 200)
+
+    # def test_register_email_created(self):
+    #     response = self.client.post('/accounts/register/', {
+    #         "username": "kent",
+    #         "email": "kent@hiscompany.com",
+    #         "password1": "wabl",
+    #         "password2": "wabl"
+    #     })
+    #     import pdb; pdb.set_trace()
+    #
+    #     self.assertEqual(len(mail.outbox), 1)
 
 
 class IndexPageDefaultViewTestCase(TestCase):
@@ -163,6 +177,9 @@ class IndexPageDefaultViewTestCase(TestCase):
 
     def test_register_button_appears(self):
         self.assertTrue(' class="button big fit">Register</a></li>' in self.response.content.decode())
+
+    def test_username_filler_appears(self):
+        self.assertTrue('Imgur Clone' in self.response.content.decode())
 
 
 class StaticFilesTestCase(TestCase):
