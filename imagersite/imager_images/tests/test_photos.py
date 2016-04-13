@@ -52,7 +52,7 @@ class SingleAlbumTestCase(TestCase):
         )
         self.album.save()
 
-        self.photo_titles = [u'hello%s' % x for x in range(10)]
+        self.photo_titles = [u'hello%s' % x for x in range(1)]
 
         for photo_title in self.photo_titles:
             photo = PhotoFactory(
@@ -63,7 +63,7 @@ class SingleAlbumTestCase(TestCase):
             self.album.add_photo(photo_title)
 
     def test_images_created(self):
-        self.assertEqual(self.album.photos.count(), 10)
+        self.assertEqual(self.album.photos.count(), 1)
 
     def test_album_created_correctly_with_no_errors(self):
         self.assertTrue(isinstance(self.album, Album))
