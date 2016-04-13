@@ -160,7 +160,25 @@ class RegisterPageViewTestCase(TestCase):
         })
         self.assertTrue('<form ' in response.content.decode())
 
+    def test_register_email_link_works(self):
+        response = self.register()
+        letter = mail.outbox[0]
+        link = letter.message().get_payload().split('\n')[0].split('"')[1]
+        self.assertTrue(link.startswith('/accounts/activate/'))
 
+    def test_register_email_link_works(self):
+        response = self.register()
+        letter = mail.outbox[0]
+        link = letter.message().get_payload().split('\n')[0].split('"')[1]
+        response = self.client.get(link)
+        self.assertEqual(response.status_code, 302)
+
+    def test_register_email_link_works(self):
+        response = self.register()
+        letter = mail.outbox[0]
+        link = letter.message().get_payload().split('\n')[0].split('"')[1]
+        response = self.client.get(link)
+        self.assertEqual(response.url, '/accounts/activate/complete/')
 
 class IndexPageDefaultViewTestCase(TestCase):
 
