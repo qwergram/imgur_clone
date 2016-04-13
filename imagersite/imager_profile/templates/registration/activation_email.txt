@@ -1,0 +1,7 @@
+<a href="{% url "registration_activate" activation_key %}">
+Click here to complete your Registration
+</a>
+
+Thanks!
+
+- Waffles
