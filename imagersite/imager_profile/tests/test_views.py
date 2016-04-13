@@ -109,6 +109,14 @@ class RegisterPageViewTestCase(TestCase):
         self.client = Client()
         self.response = self.client.get('/accounts/register/')
 
+    def register(self):
+        return self.client.post('/accounts/register/', {
+            "username": "kent",
+            "email": "kent@hiscompany.com",
+            "password1": "wablwabl3",
+            "password2": "wablwabl3"
+        })
+
     def test_register_exists(self):
         self.assertEqual(self.response.status_code, 200)
 
@@ -125,22 +133,17 @@ class RegisterPageViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_register_form_submit_works(self):
-        response = self.client.post('/accounts/register/', {
-            "username": "kent",
-            "email": "kent@hiscompany.com",
-            "password1": "wablwabl3",
-            "password2": "wablwabl3"
-        })
+        response = self.register()
         self.assertFalse('<form ' in response.content.decode())
 
     def test_register_email_created(self):
-        response = self.client.post('/accounts/register/', {
-            "username": "kent",
-            "email": "kent@hiscompany.com",
-            "password1": "wablwabl3",
-            "password2": "wablwabl3"
-        })
+        response = self.register()
         self.assertEqual(len(mail.outbox), 1)
+
+    def test_register_email_content_correct(self):
+        response = self.register()
+        letter = mail.outbox[0]
+        import pdb; pdb.set_trace()
 
     def test_register_short_password(self):
         response = self.client.post('/accounts/register/', {
