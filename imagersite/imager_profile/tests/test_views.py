@@ -20,6 +20,7 @@ class LoginPageViewTestCase(TestCase):
     def test_login_contains_submit(self):
         self.assertTrue('<input type="submit"' in self.response.content.decode())
 
+
 class AuthenticateViewTestCase(TestCase):
 
     def setUp(self):
@@ -110,6 +111,13 @@ class IndexPageDefaultViewTestCase(TestCase):
 
     def test_index_view_is_not_base_view(self):
         self.assertFalse('<p>Hello World!</p>' in self.response.content.decode())
+
+    def test_login_button_appears(self):
+        self.assertTrue('class="button big fit">Log In</a>' in self.response.content.decode())
+
+    def test_register_button_appears(self):
+        self.assertTrue(' class="button big fit">Register</a></li>' in self.response.content.decode())
+
 
 class StaticFilesTestCase(TestCase):
 
