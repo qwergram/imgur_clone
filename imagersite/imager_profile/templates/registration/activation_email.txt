@@ -1,4 +1,4 @@
-<a href="{% url "registration_activate" activation_key %}">
+<a href="{% url "hmac:registration_activate" activation_key %}">
 Click here to complete your Registration
 </a>
 
