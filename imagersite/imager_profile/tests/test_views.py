@@ -20,6 +20,34 @@ class LoginPageViewTestCase(TestCase):
     def test_login_contains_submit(self):
         self.assertTrue('<input type="submit"' in self.response.content.decode())
 
+class ProfilePageViewTestCase(TestCase):
+
+    def setUp(self):
+        self.user = UserFactory.create(
+            username="kent"
+        )
+        self.user.set_password("icantsayit")
+        self.user.save()
+        self.client = Client()
+        self.response = self.client.post('/accounts/login/', {
+            "username": self.user.username,
+            "password": "icantsayit"
+        })
+
+    def test_login_page_redirects(self):
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_login_page_redirect_location(self):
+        self.assertEqual(self.response.url, '/accounts/profile/')
+
+    def test_login_page_requires_csrf(self):
+        client = Client(enforce_csrf_checks=True)
+        response = client.post('/accounts/login/', {
+            "username": self.user.username,
+            "password": "icantsayit"
+        })
+        self.assertEqual(response.status_code, 403)
+
 
 class LogoutPageViewTestCase(TestCase):
     pass
