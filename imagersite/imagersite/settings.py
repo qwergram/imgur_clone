@@ -128,3 +128,4 @@ MEDIA_ROOT = './'
 
 # HMAC Registration Settings
 ACCOUNT_ACTIVATION_DAYS = 7
+LOGIN_REDIRECT_URL = '/'
