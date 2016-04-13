@@ -17,6 +17,9 @@ class LoginPageViewTestCase(TestCase):
     def test_login_view_contains_a_form(self):
         self.assertTrue('<form' in self.response.content.decode())
 
+    def test_login_contains_submit(self):
+        self.assertTrue('<input type="submit"' in self.response.content.decode())
+
 
 class LogoutPageViewTestCase(TestCase):
     pass
