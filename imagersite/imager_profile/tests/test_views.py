@@ -99,8 +99,27 @@ class LogoutPageViewTestCase(TestCase):
     def test_checkout_logout_hacked_302(self):
         self.assertTrue('<meta http-equiv="refresh" content="0;URL=/">' in self.response.content.decode())
 
+
 class RegisterPageViewTestCase(TestCase):
-    pass
+
+    def setUp(self):
+        self.client = Client()
+        self.response = self.client.get('/accounts/register/')
+
+    def test_register_exists(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_register_contains_forms(self):
+        self.assertTrue('<form ' in self.response.content.decode())
+
+    def test_register_redirect(self):
+        response = self.client.post('/accounts/register/', {
+            "username": "kent",
+            "email": "kent@hiscompany.com",
+            "password1": "wabl",
+            "password2": "wabl"
+        })
+        self.assertEqual(response.status_code, 200)
 
 
 class IndexPageDefaultViewTestCase(TestCase):
