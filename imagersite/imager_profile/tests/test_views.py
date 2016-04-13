@@ -68,6 +68,9 @@ class ProfileViewTestCase(TestCase):
     def test_profile_page_exists(self):
         self.assertEqual(self.response.status_code, 200)
 
+    def test_logout_button_appears(self):
+        self.assertTrue(' class="button big fit">Log Out</a></li>' in self.response.content.decode())
+
 class LogoutPageViewTestCase(TestCase):
     pass
 

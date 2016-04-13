@@ -74,8 +74,12 @@
       <!-- Actions -->
         <section>
           <ul class="actions vertical">
-            <li><a href="{% url "hmac:auth_login" %}" class="button big fit">Log In</a></li>
-            <li><a href="{% url "hmac:registration_register" %}" class="button big fit">Register</a></li>
+            {% if user.is_authenticated %}
+              <li><a href="{% url "hmac:auth_logout" %}" class="button big fit">Log Out</a></li>
+            {% else %}
+              <li><a href="{% url "hmac:auth_login" %}" class="button big fit">Log In</a></li>
+              <li><a href="{% url "hmac:registration_register" %}" class="button big fit">Register</a></li>
+            {% endif %}
           </ul>
         </section>
 
