@@ -140,10 +140,16 @@ class RegisterPageViewTestCase(TestCase):
         response = self.register()
         self.assertEqual(len(mail.outbox), 1)
 
+    def test_register_email_address_correct(self):
+        response = self.register()
+        letter = mail.outbox[0]
+        self.assertEqual(letter.recipients()[0], "kent@hiscompany.com")
+
     def test_register_email_content_correct(self):
         response = self.register()
         letter = mail.outbox[0]
-        import pdb; pdb.set_trace()
+        self.assertTrue("Click here to complete your Registration\n</a>" in letter.message().get_payload())
+        self.assertTrue("- Waffles" in letter.message().get_payload())
 
     def test_register_short_password(self):
         response = self.client.post('/accounts/register/', {
