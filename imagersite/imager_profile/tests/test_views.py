@@ -71,6 +71,12 @@ class ProfileViewTestCase(TestCase):
     def test_logout_button_appears(self):
         self.assertTrue(' class="button big fit">Log Out</a></li>' in self.response.content.decode())
 
+    def test_login_doesnt_exist(self):
+        self.assertFalse(' class="button big fit">Log In</a></li>' in self.response.content.decode())
+
+    def test_register_doesnt_exist(self):
+        self.assertFalse(' class="button big fit">Register</a></li>' in self.response.content.decode())
+
 
 class LogoutPageViewTestCase(TestCase):
 
