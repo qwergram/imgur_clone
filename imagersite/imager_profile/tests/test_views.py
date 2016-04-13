@@ -180,6 +180,15 @@ class RegisterPageViewTestCase(TestCase):
         response = self.client.get(link)
         self.assertEqual(response.url, '/accounts/activate/complete/')
 
+    def test_accounts_complete_view(self):
+        response = self.client.get('/accounts/activate/complete/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_accounts_complete_view_content_correct(self):
+        response = self.client.get('/accounts/activate/complete/')
+        self.assertTrue("<h1> Thanks for signing up! </h1>" in response.content.decode())
+
+
 class IndexPageDefaultViewTestCase(TestCase):
 
     def setUp(self):
