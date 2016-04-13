@@ -71,6 +71,7 @@ class ProfileViewTestCase(TestCase):
     def test_logout_button_appears(self):
         self.assertTrue(' class="button big fit">Log Out</a></li>' in self.response.content.decode())
 
+
 class LogoutPageViewTestCase(TestCase):
 
     def setUp(self):
@@ -89,6 +90,8 @@ class LogoutPageViewTestCase(TestCase):
     def test_check_logout_exists(self):
         self.assertEqual(self.response.status_code, 200)
 
+    def test_checkout_logout_hacked_302(self):
+        self.assertTrue('<meta http-equiv="refresh" content="0;URL=/">' in self.response.content.decode())
 
 class RegisterPageViewTestCase(TestCase):
     pass
