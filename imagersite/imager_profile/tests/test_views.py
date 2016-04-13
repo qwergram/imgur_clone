@@ -72,7 +72,22 @@ class ProfileViewTestCase(TestCase):
         self.assertTrue(' class="button big fit">Log Out</a></li>' in self.response.content.decode())
 
 class LogoutPageViewTestCase(TestCase):
-    pass
+
+    def setUp(self):
+        self.user = UserFactory.create(
+            username="kent"
+        )
+        self.user.set_password("icantsayit")
+        self.user.save()
+        self.client = Client()
+        self.client.post('/accounts/login/', {
+            "username": self.user.username,
+            "password": "icantsayit"
+        })
+        self.response = self.client.get('/accounts/logout/')
+
+    def test_check_logout_exists(self):
+        self.assertEqual(self.response.status_code, 200)
 
 
 class RegisterPageViewTestCase(TestCase):
