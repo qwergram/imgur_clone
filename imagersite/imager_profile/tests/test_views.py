@@ -279,3 +279,6 @@ class ProfileViewTestCase(TestCase):
 
     def test_profile_url_is_correct(self):
         self.assertTrue("<h1>YOU ARE AT PROFILES</h1>" in self.response.content.decode())
+
+    def test_profile_name_appears(self):
+        self.assertTrue('kent</a></h1>' in self.response.content.decode())
