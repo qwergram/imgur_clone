@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from imager_profile.views import IndexView, profile_view
 from imager_images.views import latest_library_view, album_view, photo_view
 
+
 image_patterns = [
     url(r'^images/library/$', latest_library_view, name="library"),
     url(r'^images/album/(?P<album_id>\d+)/$', album_view, name="albums"),
@@ -40,7 +41,9 @@ admin_patterns = [
     url(r'^admin/', admin.site.urls),
 ]
 
+
 urlpatterns = profile_patterns + admin_patterns + hmac_patterns + image_patterns
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
