@@ -5,7 +5,7 @@
 {% for photo in photos %}
 
   <article class="thumb">
-    <a href="{% url photos_view photo.id %}" class="image"><img src="{% static "imager_images/album/images/thumbs/01.jpg" %}" alt="" /></a>
+    <a href="{% url 'photos_view' %}{{photo.id}}" class="image"><img src="{{photo.photo.url}}" alt="" /></a>
     <h2>Magna feugiat lorem</h2>
     <p>Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.</p>
   </article>
