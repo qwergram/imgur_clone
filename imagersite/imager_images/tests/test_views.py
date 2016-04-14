@@ -73,6 +73,6 @@ class PhotoViewTestCase(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
     def test_photo_appears(self):
-        self.assertContains(self.response, self.photo.file.url)
+        self.assertContains(self.response, self.photo.photo.url)
 
     # TODO more photo tests
