@@ -1,7 +1,9 @@
+# coding=utf-8
 from django.test import TestCase, Client
 from django.core import mail
 from imager_profile.tests.test_model import UserFactory
 from .test_photos import PhotoFactory, AlbumFactory
+
 
 class LibraryImageTestCase(TestCase):
 
@@ -54,6 +56,7 @@ class AlbumViewTestCase(TestCase):
     def test_view_album_view_is_correct(self):
         self.assertTrue(self.photo.title in self.response.content.decode())
 
+
 class PhotoViewTestCase(TestCase):
 
     def setUp(self):
@@ -61,10 +64,15 @@ class PhotoViewTestCase(TestCase):
         self.user1 = UserFactory.create()
         self.user2 = UserFactory.create()
         self.photo = PhotoFactory.create(
-            owner=self.user.profile
+            owner=self.user1.profile,
             published="CLOSED",
         )
-        self.response = self.client.get('/images/photos/1/')
+        self.response = self.client.get('/images/photos/{0}/'.format(self.photo.id))
 
     def test_photo_exists(self):
         self.assertEqual(self.response.status_code, 200)
+
+    def test_photo_appears(self):
+        self.assertContains(self.response, self.photo.file.url)
+
+    # TODO more photo tests
