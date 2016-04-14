@@ -81,6 +81,10 @@ class ProfileViewTestCase(TestCase):
     def test_username_appears(self):
         self.assertTrue('kent' in self.response.content.decode())
 
+    def test_static_image_appears(self):
+        self.assertTrue('<!-- no public photos -->' in self.response.content.decode())
+
+
 class LogoutPageViewTestCase(TestCase):
 
     def setUp(self):
