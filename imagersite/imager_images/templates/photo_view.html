@@ -1,0 +1,9 @@
+{% extends "album_base.html" %}
+{% load static %}
+{% block main_content %}
+<!-- <h1>YOU ARE AT PHOTO VIEW!</h1> -->
+<img src="{{photo.photo.url}}" alt="" width="100%" height="100%"/>
+{% endblock %}
+{% block title %}{{photo.title}}{% endblock %}
+{% block h2 %}"{{photo.title}}" by {{photo.owner.user.username}}{% endblock %}
+{% block desc %}{{photo.description}}{% endblock %}

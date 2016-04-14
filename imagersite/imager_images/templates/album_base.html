@@ -22,7 +22,7 @@
 
 				<!-- Header -->
 					<header id="header">
-						<h1><a href="/"><strong>Imager Clone</strong> by Norton and Kent</a></h1>
+						<h1>{% block title %}<a href="/"><strong>Imager Clone</strong> by Norton and Kent</a>{% endblock %}</h1>
 						<nav>
 							<ul>
 								<li><a href="#footer" class="icon fa-info-circle">About</a></li>
@@ -42,8 +42,8 @@
 						<div class="inner split">
 							<div>
 								<section>
-									<h2>Hello {{user.username}}</h2>
-									<p>You are viewing the latest images posted on our website.</p>
+									<h2>{% block h2 %}Hello {{user.username}}{% endblock %}</h2>
+									<p>{% block desc %}You are viewing the latest images posted on our website.{% endblock %}</p>
 								</section>
 								<section>
 									<h2>Follow me on ...</h2>
