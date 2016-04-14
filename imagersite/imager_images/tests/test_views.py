@@ -9,6 +9,9 @@ class LibraryImageTestCase(TestCase):
         self.client = Client()
         self.response = self.client.get('/images/library/')
 
+    def test_view_exists(self):
+        self.assertTrue(self.response.status_code, 200)
+
 
 class AlbumViewTestCase(TestCase):
 
