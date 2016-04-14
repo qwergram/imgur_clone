@@ -7,7 +7,11 @@ def latest_library_view(request, **kwargs):
     return render(request, "library_view.html", {"photos": Photo.objects.filter(published=PUBLIC).order_by("-date_uploaded")[:100]})
 
 def album_view(request, album_id=None, **kwargs):
-    return render(request, "album_base.html", {})
+    if album_id:
+        photos = get_object_or_404(Album, id=album_id)
+    else:
+        return redirect('library')
+    return render(request, "album_base.html", {"photos": photos})
 
 def photo_view(request, photo_id=None, **kwrags):
     if photo_id:
