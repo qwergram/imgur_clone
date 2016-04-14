@@ -139,7 +139,7 @@ class RegisterPageViewTestCase(TestCase):
 
     def test_register_form_submit_works(self):
         response = self.register()
-        self.assertNotContains(self.response, '<form ')
+        self.assertEqual(response.status_code, 302)
 
     def test_register_email_created(self):
         response = self.register()
@@ -283,4 +283,4 @@ class OtherProfileViewTestCase(TestCase):
         self.assertContains(self.response, 'kent</a></h1>')
 
     def test_other_profile_appears(self):
-        self.assertContains(self.response, 'norton</a></h1>')
+        self.assertContains(self.response2, 'norton</a></h1>')
