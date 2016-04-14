@@ -8,7 +8,7 @@ def latest_library_view(request, **kwargs):
 
 def album_view(request, album_id=None, **kwargs):
     if album_id:
-        photos = get_object_or_404(Album, id=album_id)
+        photos = get_object_or_404(Album, id=album_id).photos.all()
     else:
         return redirect('library')
     return render(request, "library_view.html", {"photos": photos})
