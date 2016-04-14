@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.test import TestCase, Client
 from django.core import mail
 from imager_profile.tests.test_model import UserFactory
@@ -16,10 +17,10 @@ class LoginPageViewTestCase(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
     def test_login_view_contains_a_form(self):
-        self.assertTrue('<form' in self.response.content.decode())
+        self.assertContains(self.response, '<form')
 
     def test_login_contains_submit(self):
-        self.assertTrue('<input type="submit"' in self.response.content.decode())
+        self.assertContains(self.response, '<input type="submit"')
 
 
 class AuthenticateViewTestCase(TestCase):
@@ -51,7 +52,7 @@ class AuthenticateViewTestCase(TestCase):
         self.assertEqual(response.status_code, 403)
 
 
-class ProfileViewTestCase(TestCase):
+class OwnProfileViewTestCase(TestCase):
 
     def setUp(self):
         self.user = UserFactory.create(
@@ -60,29 +61,29 @@ class ProfileViewTestCase(TestCase):
         self.user.set_password("icantsayit")
         self.user.save()
         self.client = Client()
-        self.client.post('/accounts/login/', {
+        login_response = self.client.post('/accounts/login/', {
             "username": self.user.username,
             "password": "icantsayit"
         })
-        self.response = self.client.get('/')
+        self.response = self.client.get(login_response.url)
 
     def test_profile_page_exists(self):
         self.assertEqual(self.response.status_code, 200)
 
     def test_logout_button_appears(self):
-        self.assertTrue(' class="button big fit">Log Out</a></li>' in self.response.content.decode())
+        self.assertContains(self.response, ' class="button big fit">Log Out</a></li>')
 
     def test_login_doesnt_exist(self):
-        self.assertFalse(' class="button big fit">Log In</a></li>' in self.response.content.decode())
+        self.assertNotContains(self.response, ' class="button big fit">Log In</a></li>')
 
     def test_register_doesnt_exist(self):
-        self.assertFalse(' class="button big fit">Register</a></li>' in self.response.content.decode())
+        self.assertNotContains(self.response, ' class="button big fit">Register</a></li>')
 
     def test_username_appears(self):
-        self.assertTrue('kent' in self.response.content.decode())
+        self.assertContains(self.response, self.user.username)
 
     def test_static_image_appears(self):
-        self.assertTrue('<!-- no public photos -->' in self.response.content.decode())
+        self.assertContains(self.response, '<!-- no public photos -->')
 
 
 class LogoutPageViewTestCase(TestCase):
@@ -125,7 +126,7 @@ class RegisterPageViewTestCase(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
     def test_register_contains_forms(self):
-        self.assertTrue('<form ' in self.response.content.decode())
+        self.assertContains(self.response, '<form ')
 
     def test_register_success(self):
         response = self.client.post('/accounts/register/', {
@@ -138,7 +139,7 @@ class RegisterPageViewTestCase(TestCase):
 
     def test_register_form_submit_works(self):
         response = self.register()
-        self.assertFalse('<form ' in response.content.decode())
+        self.assertNotContains(self.response, '<form ')
 
     def test_register_email_created(self):
         response = self.register()
@@ -162,27 +163,16 @@ class RegisterPageViewTestCase(TestCase):
             "password1": "wabl",
             "password2": "wabl"
         })
-        self.assertTrue('<form ' in response.content.decode())
+        self.assertContains(response, '<form ')
 
     def test_register_email_link_works(self):
-        response = self.register()
+        self.register()
         letter = mail.outbox[0]
-        link = letter.message().get_payload().split('\n')[0].split('"')[1]
-        self.assertTrue(link.startswith('/accounts/activate/'))
-
-    def test_register_email_link_works(self):
-        response = self.register()
-        letter = mail.outbox[0]
-        link = letter.message().get_payload().split('\n')[0].split('"')[1]
-        response = self.client.get(link)
-        self.assertEqual(response.status_code, 302)
-
-    def test_register_email_link_works(self):
-        response = self.register()
-        letter = mail.outbox[0]
-        link = letter.message().get_payload().split('\n')[0].split('"')[1]
-        response = self.client.get(link)
-        self.assertEqual(response.url, '/accounts/activate/complete/')
+        email_link = letter.message().get_payload().split('\n')[0].split('"')[1]
+        email_link_response = self.client.get(email_link)
+        self.assertEqual(email_link_response.status_code, 302)
+        self.assertTrue(email_link.startswith('/accounts/activate/'))
+        self.assertEqual(email_link_response.url, '/accounts/activate/complete/')
 
     def test_accounts_complete_view(self):
         response = self.client.get('/accounts/activate/complete/')
@@ -190,7 +180,7 @@ class RegisterPageViewTestCase(TestCase):
 
     def test_accounts_complete_view_content_correct(self):
         response = self.client.get('/accounts/activate/complete/')
-        self.assertTrue("<h1> Thanks for signing up! </h1>" in response.content.decode())
+        self.assertTrue(response, "<h1> Thanks for signing up! </h1>")
 
 
 class IndexPageDefaultViewTestCase(TestCase):
@@ -259,7 +249,7 @@ class StaticFilesTestCase(TestCase):
         self.check_file_is_correct(path, 'Creative Commons Attribution 3.0 Unported')
 
 
-class ProfileViewTestCase(TestCase):
+class OtherProfileViewTestCase(TestCase):
 
     def setUp(self):
         self.user = UserFactory.create(
@@ -287,10 +277,10 @@ class ProfileViewTestCase(TestCase):
         self.assertEqual(self.response2.status_code, 200)
 
     def test_profile_url_is_correct(self):
-        self.assertTrue("<h1>YOU ARE AT PROFILES</h1>" in self.response.content.decode())
+        self.assertContains(self.response, "<h1>YOU ARE AT PROFILES</h1>")
 
     def test_profile_name_appears(self):
-        self.assertTrue('kent</a></h1>' in self.response.content.decode())
+        self.assertContains(self.response, 'kent</a></h1>')
 
     def test_other_profile_appears(self):
-        self.assertTrue('norton</a></h1>' in self.response2.content.decode())
+        self.assertContains(self.response, 'norton</a></h1>')
