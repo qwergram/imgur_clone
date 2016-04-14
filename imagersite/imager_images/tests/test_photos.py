@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
 from imager_profile.tests.test_model import UserFactory
-from imager_images.models import Photo, Album, privacy_choices
+from imager_images.models import Photo, Album, PRIVACY_CHOICES
 import factory
 import random
 
@@ -24,7 +24,7 @@ class PhotoFactory(factory.django.DjangoModelFactory):
 
     title = factory.Faker('sentence')
     description = factory.Faker('text')
-    published = random.choice(privacy_choices)
+    published = random.choice(PRIVACY_CHOICES)
     photo = SimpleUploadedFile(name="bg.png", content=b"almost an image", content_type='text/png')
 
 
@@ -35,7 +35,7 @@ class AlbumFactory(factory.django.DjangoModelFactory):
 
     title = factory.Faker('sentence')
     description = factory.Faker('text')
-    published = random.choice(privacy_choices)
+    published = random.choice(PRIVACY_CHOICES)
     date_published = timezone.now()
     date_modified = timezone.now()
     date_uploaded = timezone.now()
