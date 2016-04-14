@@ -58,9 +58,11 @@ class PhotoViewTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.user = UserFactory.create()
+        self.user1 = UserFactory.create()
+        self.user2 = UserFactory.create()
         self.photo = PhotoFactory.create(
             owner=self.user.profile
+            published="CLOSED",
         )
         self.response = self.client.get('/images/photos/1/')
 
