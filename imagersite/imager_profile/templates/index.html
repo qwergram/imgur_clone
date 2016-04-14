@@ -22,7 +22,7 @@
             </div>
           </header>
           {% if random_photo %}
-            <a href="#" class="image featured"><img src="{{ random_photo.file.url }}" alt="" /></a>
+            <a href="#" class="image featured"><img src="{{ random_photo.photo.url }}" alt="" /></a>
           {% else %}
             <!-- no public photos -->
             <a href="#" class="image featured"><img src="{% static "imager_profile/images/default.jpg" %}" alt="" /></a>
