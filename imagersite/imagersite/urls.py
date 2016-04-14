@@ -18,7 +18,7 @@ from django.contrib import admin
 from imagersite import settings
 from django.conf.urls.static import static
 
-from imager_profile.views import IndexView
+from imager_profile.views import IndexView, profile_view
 
 hmac_patterns = [
     url(r'^accounts/', include('registration.backends.hmac.urls'))
@@ -26,6 +26,7 @@ hmac_patterns = [
 
 profile_patterns = [
     url(r'^$', IndexView.as_view()),
+    url(r'^profile/((?P<profile_id>[\d+])/)?$', profile_view)
 ]
 
 admin_patterns = [
