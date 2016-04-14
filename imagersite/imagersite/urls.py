@@ -23,8 +23,8 @@ from imager_images.views import latest_library_view, album_view, photo_view
 
 image_patterns = [
     url(r'^images/library/$', latest_library_view, name="library"),
-    url(r'^images/album/(?:(?P<album_id>[\d+])/)?$', album_view, name="albums"),
-    url(r'^images/photos/(?:(?P<photo_id>[\d+])/)?$', photo_view, name="photos_view"),
+    url(r'^images/album/(?:(?P<album_id>\d+)/)?$', album_view, name="albums"),
+    url(r'^images/photos/(?:(?P<photo_id>\d+)/)?$', photo_view, name="photos_view"),
 ]
 
 hmac_patterns = [
@@ -33,7 +33,7 @@ hmac_patterns = [
 
 profile_patterns = [
     url(r'^$', IndexView.as_view()),
-    url(r'^profile/(?:(?P<profile_id>[\d+])/)?$', profile_view)
+    url(r'^profile/(?:(?P<profile_id>\d+)/)?$', profile_view)
 ]
 
 admin_patterns = [
