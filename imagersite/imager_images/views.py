@@ -11,7 +11,7 @@ def album_view(request, album_id=None, **kwargs):
         photos = get_object_or_404(Album, id=album_id)
     else:
         return redirect('library')
-    return render(request, "album_base.html", {"photos": photos})
+    return render(request, "library_view.html", {"photos": photos})
 
 def photo_view(request, photo_id=None, **kwrags):
     if photo_id:
