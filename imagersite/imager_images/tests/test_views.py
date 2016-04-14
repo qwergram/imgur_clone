@@ -43,7 +43,6 @@ class AlbumViewTestCase(TestCase):
             owner=self.user.profile
         )
         self.album.add_photo(self.photo)
-        self.album.save()
         self.response = self.client.get('/images/album/{}/'.format(self.album.id))
 
     def test_view_album_exists(self):
@@ -59,4 +58,11 @@ class PhotoViewTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.response = self.client.get('/images/photos/')
+        self.user = UserFactory.create()
+        self.photo = PhotoFactory.create(
+            owner=self.user.profile
+        )
+        self.response = self.client.get('/images/photos/1/')
+
+    def test_photo_exists(self):
+        self.assertEqual(self.response.status_code, 200)
