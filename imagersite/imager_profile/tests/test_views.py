@@ -267,18 +267,30 @@ class ProfileViewTestCase(TestCase):
         )
         self.user.set_password("icantsayit")
         self.user.save()
+        self.user2 = UserFactory.create(
+            username="norton"
+        )
+        self.user2.set_password("icantsayit")
+        self.user2.save()
         self.client = Client()
         self.client.post('/accounts/login/', {
             "username": self.user.username,
             "password": "icantsayit"
         })
         self.response = self.client.get('/profile/')
+        self.response2 = self.client.get('/profile/{}/'.format(self.user2.profile.id))
 
     def test_proflie_url_exists(self):
         self.assertEqual(self.response.status_code, 200)
+
+    def test_other_profile_exists(self):
+        self.assertEqual(self.)
 
     def test_profile_url_is_correct(self):
         self.assertTrue("<h1>YOU ARE AT PROFILES</h1>" in self.response.content.decode())
 
     def test_profile_name_appears(self):
         self.assertTrue('kent</a></h1>' in self.response.content.decode())
+
+    def test_other_profile_appears(self):
+        self.assertTrue('norton</a></h1>' in self.response2.content.decode())
