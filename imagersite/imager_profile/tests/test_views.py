@@ -272,3 +272,6 @@ class ProfileViewTestCase(TestCase):
 
     def test_proflie_url_exists(self):
         self.assertEqual(self.response.status_code, 200)
+
+    def test_profile_url_is_correct(self):
+        self.assertTrue("<h1>YOU ARE AT PROFILES</h1>" in self.response.content.decode())
