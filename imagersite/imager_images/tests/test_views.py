@@ -34,8 +34,26 @@ class AlbumViewTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.response = self.client.get('/images/album/')
 
+        self.user = UserFactory.create()
+        self.photo = PhotoFactory.create(
+            owner=self.user.profile
+        )
+        self.album = AlbumFactory.create(
+            owner=self.user.profile
+        )
+        self.album.add_photo(self.photo)
+        self.album.save()
+        self.response = self.client.get('/images/album/{}/'.format(self.album.id))
+
+    def test_view_album_exists(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_view_album_model_is_correct(self):
+        self.assertTrue(self.photo in self.album.photos.all())
+
+    def test_view_album_view_is_correct(self):
+        self.assertTrue(self.photo.title in self.response.content.decode())
 
 class PhotoViewTestCase(TestCase):
 
