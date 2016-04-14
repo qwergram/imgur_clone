@@ -23,7 +23,7 @@
 		      <h1><a href="#">{% if profile %}{{profile.user.username}}{% else %}Imgur Clone{% endif %}</a></h1>
 		      <nav class="links">
 		        <ul>
-		          <li><a href="#">Library</a></li>
+		          <li><a href="{% url 'library' %}">Library</a></li>
 		        </ul>
 		      </nav>
 		      <nav class="main">
