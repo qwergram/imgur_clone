@@ -40,7 +40,7 @@ class AuthenticateViewTestCase(TestCase):
         self.assertEqual(self.response.status_code, 302)
 
     def test_login_page_redirect_location(self):
-        self.assertEqual(self.response.url, '/')
+        self.assertEqual(self.response.url, '/profile/')
 
     def test_login_page_requires_csrf(self):
         client = Client(enforce_csrf_checks=True)
@@ -253,3 +253,22 @@ class StaticFilesTestCase(TestCase):
     def test_static_files_correct(self):
         path = self.client.find('imager_profile/LICENSE.txt')
         self.check_file_is_correct(path, 'Creative Commons Attribution 3.0 Unported')
+
+
+class ProfileViewTestCase(TestCase):
+
+    def setUp(self):
+        self.user = UserFactory.create(
+            username="kent"
+        )
+        self.user.set_password("icantsayit")
+        self.user.save()
+        self.client = Client()
+        self.client.post('/accounts/login/', {
+            "username": self.user.username,
+            "password": "icantsayit"
+        })
+        self.response = self.client.get('/profile/')
+
+    def test_proflie_url_exists(self):
+        self.assertEqual(self.response.status_code, 200)

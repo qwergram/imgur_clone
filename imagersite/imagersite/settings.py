@@ -128,7 +128,7 @@ MEDIA_ROOT = './'
 
 # HMAC Registration Settings
 ACCOUNT_ACTIVATION_DAYS = 7
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/profile/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "localhost")
