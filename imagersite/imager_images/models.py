@@ -4,15 +4,20 @@ from imager_profile.models import ImagerProfile
 
 # Create your models here.
 
-privacy_choices = (
-    ('CLOSED', 'Private'),
-    ('UNLISTED', 'Shared'),
-    ('OPEN', 'Public')
+
+PRIVATE = 'CLOSED'
+UNLISTED = 'UNLISTED'
+PUBLIC = 'OPEN'
+PRIVACY_CHOICES = (
+    (PRIVATE, 'Private'),
+    (UNLISTED, 'Shared'),
+    (PUBLIC, 'Public')
 )
 
 
 class Photo(models.Model):
     "A single photo that can be uploaded by a user."
+
 
     def __str__(self):
         return self.title
@@ -20,7 +25,8 @@ class Photo(models.Model):
     owner = models.ForeignKey(ImagerProfile)
     title = models.CharField(max_length=255, default="Example Title")
     description = models.TextField(default="Write a short description about your photo!")
-    published = models.CharField(choices=privacy_choices, max_length=16, default="UNLISTED")
+    published = models.CharField(choices=PRIVACY_CHOICES, max_length=16, default=UNLISTED)
+
     date_uploaded = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     date_modified = models.DateTimeField(auto_now=True, null=True, blank=True)
     date_published = models.DateTimeField(null=True, blank=True)
@@ -36,7 +42,7 @@ class Album(models.Model):
     owner = models.ForeignKey(ImagerProfile)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    published = models.CharField(choices=privacy_choices, max_length=16)
+    published = models.CharField(choices=PRIVACY_CHOICES, max_length=16)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(blank=True)
