@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.core import mail
 from imager_profile.tests.test_model import UserFactory
-from .tests.test_photos import PhotoFactory, AlbumFactory
+from .test_photos import PhotoFactory, AlbumFactory
 
 class LibraryImageTestCase(TestCase):
 
