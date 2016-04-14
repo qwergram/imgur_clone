@@ -7,7 +7,7 @@
 -->
 <html>
 	<head>
-		<title>Future Imperfect by HTML5 UP</title>
+		<title>{% if profile %}{{profile.user.username}}'s profile{% else %}Imgur Clone{% endif %}</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="{% static "imager_profile/assets/js/ie/html5shiv.js" %}"></script><![endif]-->
