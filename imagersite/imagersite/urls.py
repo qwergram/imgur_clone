@@ -40,7 +40,7 @@ admin_patterns = [
     url(r'^admin/', admin.site.urls),
 ]
 
-urlpatterns = profile_patterns + admin_patterns + hmac_patterns
+urlpatterns = profile_patterns + admin_patterns + hmac_patterns + image_patterns
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
