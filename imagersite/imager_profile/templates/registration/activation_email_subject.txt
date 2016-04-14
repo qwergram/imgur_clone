@@ -1,0 +1,1 @@
+Please confirm your registration {{site.domain}}
