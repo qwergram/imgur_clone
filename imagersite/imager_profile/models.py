@@ -7,12 +7,12 @@ from django.db import models
 class ImagerProfile(models.Model):
     def __str__(self):
         return self.user.username
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="profile")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="profile", max_length=255)
     camera = models.CharField(max_length=255, blank=True)
     personality_type = models.CharField(max_length=4, blank=True)
     category = models.CharField(max_length=255, blank=True)
-    github = models.URLField(blank=True)
-    following = models.ManyToManyField('self', related_name="followers", symmetrical=False, blank=True)
+    github = models.URLField(blank=True, max_length=255)
+    following = models.ManyToManyField('self', related_name="followers", symmetrical=False, blank=True, max_length=255)
 
     @property
     def is_active(self):

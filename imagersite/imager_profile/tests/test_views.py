@@ -1,5 +1,6 @@
 # coding=utf-8
 from django.test import TestCase, Client
+from django.shortcuts import resolve_url
 from django.core import mail
 from imager_profile.tests.test_model import UserFactory
 from django.contrib.staticfiles import finders
@@ -11,7 +12,7 @@ class LoginPageViewTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.response = self.client.get('/accounts/login/')
+        self.response = self.client.get(resolve_url('auth_login'))
 
     def test_login_view_exists(self):
         self.assertEqual(self.response.status_code, 200)
@@ -32,7 +33,7 @@ class AuthenticateViewTestCase(TestCase):
         self.user.set_password("icantsayit")
         self.user.save()
         self.client = Client()
-        self.response = self.client.post('/accounts/login/', {
+        self.response = self.client.post(resolve_url('auth_login'), {
             "username": self.user.username,
             "password": "icantsayit"
         })
@@ -41,11 +42,11 @@ class AuthenticateViewTestCase(TestCase):
         self.assertEqual(self.response.status_code, 302)
 
     def test_login_page_redirect_location(self):
-        self.assertEqual(self.response.url, '/profile/')
+        self.assertEqual(self.response.url, resolve_url('profile'))
 
     def test_login_page_requires_csrf(self):
         client = Client(enforce_csrf_checks=True)
-        response = client.post('/accounts/login/', {
+        response = client.post(resolve_url('auth_login'), {
             "username": self.user.username,
             "password": "icantsayit"
         })
@@ -61,7 +62,7 @@ class OwnProfileViewTestCase(TestCase):
         self.user.set_password("icantsayit")
         self.user.save()
         self.client = Client()
-        login_response = self.client.post('/accounts/login/', {
+        login_response = self.client.post(resolve_url('auth_login'), {
             "username": self.user.username,
             "password": "icantsayit"
         })
@@ -95,27 +96,27 @@ class LogoutPageViewTestCase(TestCase):
         self.user.set_password("icantsayit")
         self.user.save()
         self.client = Client()
-        self.client.post('/accounts/login/', {
+        self.client.post(resolve_url('auth_login'), {
             "username": self.user.username,
             "password": "icantsayit"
         })
-        self.response = self.client.get('/accounts/logout/')
+        self.response = self.client.get(resolve_url('auth_logout'))
 
     def test_check_logout_exists(self):
         self.assertEqual(self.response.status_code, 200)
 
     def test_checkout_logout_hacked_302(self):
-        self.assertTrue('<meta http-equiv="refresh" content="0;URL=/">' in self.response.content.decode())
+        self.assertContains(self.response, '<meta http-equiv="refresh" content="0;URL=/">')
 
 
 class RegisterPageViewTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.response = self.client.get('/accounts/register/')
+        self.response = self.client.get(resolve_url('registration_register'))
 
     def register(self):
-        return self.client.post('/accounts/register/', {
+        return self.client.post(resolve_url('registration_register'), {
             "username": "kent",
             "email": "kent@hiscompany.com",
             "password1": "wablwabl3",
@@ -129,7 +130,7 @@ class RegisterPageViewTestCase(TestCase):
         self.assertContains(self.response, '<form ')
 
     def test_register_success(self):
-        response = self.client.post('/accounts/register/', {
+        response = self.client.post(resolve_url('registration_register'), {
             "username": "kent",
             "email": "kent@hiscompany.com",
             "password1": "wabl",
@@ -142,22 +143,22 @@ class RegisterPageViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_register_email_created(self):
-        response = self.register()
+        _ = self.register()
         self.assertEqual(len(mail.outbox), 1)
 
     def test_register_email_address_correct(self):
-        response = self.register()
+        _ = self.register()
         letter = mail.outbox[0]
         self.assertEqual(letter.recipients()[0], "kent@hiscompany.com")
 
     def test_register_email_content_correct(self):
-        response = self.register()
+        _ = self.register()
         letter = mail.outbox[0]
         self.assertTrue("Click here to complete your Registration\n</a>" in letter.message().get_payload())
         self.assertTrue("- Waffles" in letter.message().get_payload())
 
     def test_register_short_password(self):
-        response = self.client.post('/accounts/register/', {
+        response = self.client.post(resolve_url('registration_register'), {
             "username": "kent",
             "email": "kent@hiscompany.com",
             "password1": "wabl",
@@ -171,16 +172,16 @@ class RegisterPageViewTestCase(TestCase):
         email_link = letter.message().get_payload().split('\n')[0].split('"')[1]
         email_link_response = self.client.get(email_link)
         self.assertEqual(email_link_response.status_code, 302)
-        self.assertTrue(email_link.startswith('/accounts/activate/'))
-        self.assertEqual(email_link_response.url, '/accounts/activate/complete/')
+        self.assertTrue(email_link.startswith(resolve_url('registration_activate', activation_key="a")[:-2]))
+        self.assertEqual(email_link_response.url, resolve_url('registration_activation_complete'))
 
     def test_accounts_complete_view(self):
-        response = self.client.get('/accounts/activate/complete/')
+        response = self.client.get(resolve_url('registration_activation_complete'))
         self.assertEqual(response.status_code, 200)
 
     def test_accounts_complete_view_content_correct(self):
-        response = self.client.get('/accounts/activate/complete/')
-        self.assertTrue(response, "<h1> Thanks for signing up! </h1>")
+        response = self.client.get(resolve_url('registration_activation_complete'))
+        self.assertContains(response, "<h1> Thanks for signing up! </h1>")
 
 
 class IndexPageDefaultViewTestCase(TestCase):
@@ -202,31 +203,31 @@ class IndexPageDefaultViewTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_index_contains_proper_static_links(self):
-        self.assertTrue('/static/imager_profile/assets/css/main.css' in self.response.content.decode())
+        self.assertContains(self.response, '/static/imager_profile/assets/css/main.css')
 
     def test_index_handles_lt_ie8(self):
-        self.assertTrue('/static/imager_profile/assets/js/ie/html5shiv.js' in self.response.content.decode())
-        self.assertTrue('/static/imager_profile/assets/js/ie/respond.min.js' in self.response.content.decode())
-        self.assertTrue('/static/imager_profile/assets/css/ie8.css' in self.response.content.decode())
-        self.assertTrue('/static/imager_profile/assets/css/ie9.css' in self.response.content.decode())
+        self.assertContains(self.response, '/static/imager_profile/assets/js/ie/html5shiv.js')
+        self.assertContains(self.response, '/static/imager_profile/assets/js/ie/respond.min.js')
+        self.assertContains(self.response, '/static/imager_profile/assets/css/ie8.css')
+        self.assertContains(self.response, '/static/imager_profile/assets/css/ie9.css')
 
     def test_javascript_libraries_load(self):
-        self.assertTrue('/static/imager_profile/assets/js/jquery.min.js' in self.response.content.decode())
-        self.assertTrue('/static/imager_profile/assets/js/skel.min.js' in self.response.content.decode())
-        self.assertTrue('/static/imager_profile/assets/js/util.js' in self.response.content.decode())
-        self.assertTrue('/static/imager_profile/assets/js/main.js' in self.response.content.decode())
+        self.assertContains(self.response, '/static/imager_profile/assets/js/jquery.min.js')
+        self.assertContains(self.response, '/static/imager_profile/assets/js/skel.min.js')
+        self.assertContains(self.response, '/static/imager_profile/assets/js/util.js')
+        self.assertContains(self.response, '/static/imager_profile/assets/js/main.js')
 
     def test_index_view_is_not_base_view(self):
-        self.assertFalse('<p>Hello World!</p>' in self.response.content.decode())
+        self.assertNotContains(self.response, '<p>Hello World!</p>')
 
     def test_login_button_appears(self):
-        self.assertTrue('class="button big fit">Log In</a>' in self.response.content.decode())
+        self.assertContains(self.response, 'class="button big fit">Log In</a>')
 
     def test_register_button_appears(self):
-        self.assertTrue(' class="button big fit">Register</a></li>' in self.response.content.decode())
+        self.assertContains(self.response, ' class="button big fit">Register</a></li>')
 
     def test_username_filler_appears(self):
-        self.assertTrue('Imgur Clone' in self.response.content.decode())
+        self.assertContains(self.response, 'Imgur Clone')
 
 
 class StaticFilesTestCase(TestCase):
@@ -263,7 +264,7 @@ class OtherProfileViewTestCase(TestCase):
         self.user2.set_password("icantsayit")
         self.user2.save()
         self.client = Client()
-        self.client.post('/accounts/login/', {
+        self.client.post(resolve_url('auth_login'), {
             "username": self.user.username,
             "password": "icantsayit"
         })
