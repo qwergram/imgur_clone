@@ -2,7 +2,13 @@
 {% load static %}
 
 {% block main_content %}
-<!-- <h1>YOU ARE AT INDEX</h1> -->
+{% if show_edits %}
+  <form method="post">
+    {{form}}
+    {% csrf_token %}
+    <input type="submit" />
+  </form>
+{% endif %}
 {% endblock %}
 
 {% block photos %}
