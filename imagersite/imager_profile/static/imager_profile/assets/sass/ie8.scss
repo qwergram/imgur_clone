@@ -4,12 +4,10 @@
 @import 'libs/skel';
 
 /*
-	Future Imperfect by HTML5 UP
+	Multiverse by HTML5 UP
 	html5up.net | @n33co
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
-
-$palette-border: #dedede;
 
 /* Button */
 
@@ -18,68 +16,39 @@ $palette-border: #dedede;
 	input[type="button"],
 	button,
 	.button {
-		border: solid 1px $palette-border;
-	}
+		border: solid 2px _palette(border);
 
-/* Form */
-
-	input[type="text"],
-	input[type="password"],
-	input[type="email"],
-	input[type="tel"],
-	select,
-	textarea {
-		border: solid 1px $palette-border;
-	}
-
-/* Post */
-
-	.post {
-		border: solid 1px $palette-border;
-
-		> header {
-			border-bottom: solid 1px $palette-border;
+		&.special {
+			border: 0;
 		}
 	}
 
-/* Mini Post */
+/* Panel */
 
-	.mini-post {
-		border: solid 1px $palette-border;
-	}
+	.panel {
+		background: _palette(bg);
+		display: none;
 
-/* Header */
-
-	#header {
-		border-bottom: solid 1px $palette-border;
-
-		.links {
-			border-left: solid 1px $palette-border;
+		&.active {
+			display: block;
 		}
 
-		.main {
-			ul {
-				li {
-					border-left: solid 1px $palette-border;
-				}
+		> .closer {
+			&:before {
+				content: '\00d7';
+				font-size: 42px;
 			}
 		}
 	}
 
-/* Sidebar */
+/* Main */
 
-	#sidebar {
-		> * {
-			border-top: solid 1px $palette-border;
-		}
-	}
-
-/* Menu */
-
-	#menu {
-		border-left: solid 1px $palette-border;
-
-		> * {
-			border-top: solid 1px $palette-border;
+	#main {
+		.thumb {
+			> h2 {
+				text-align: center;
+				width: 100%;
+				left: 0;
+			}
 		}
 	}
