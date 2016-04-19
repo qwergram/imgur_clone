@@ -2,7 +2,7 @@
 from django.shortcuts import render, get_object_or_404, Http404, redirect
 from django.http import HttpResponse
 from .models import Album, Photo, PUBLIC, PRIVATE, PRIVACY_CHOICES
-from .forms import NewImage, NewAlbum
+from .forms import NewImage, NewAlbum, EditPhoto
 
 
 def latest_library_view(request, **kwargs):
@@ -55,4 +55,30 @@ def photo_create(request, **kwargs):
             request,
             "photo_upload.html",
             {"form": NewImage(), "what": "photo"}
+        )
+
+def photo_edit(request, photo_id, **kwargs):
+    if request.method == "POST":
+        form = EditPhoto(request.POST, request.FILES)
+        if form.is_valid():
+            photo = get_object_or_404(Photo, id=photo_id)
+            import pdb; pdb.set_trace()
+            photo.title = form.cleaned_data.get('title')
+            photo.description = form.cleaned_data.get('description')
+            photo.published = form.cleaned_data.get('published')
+            if form.cleaned_data.get('photo'):
+                photo.photo = form.cleaned_data.get('photo')
+            photo.save()
+            return redirect("photos_view", photo_id=photo.id)
+    else:
+        photo = get_object_or_404(Photo, id=photo_id)
+        return render(
+            request,
+            "photo_upload.html",
+            {"form": EditPhoto(initial={
+                "title": photo.title,
+                "description": photo.description,
+                "published": photo.published,
+                "photo": photo.photo,
+            }), "what": "photo"}
         )
