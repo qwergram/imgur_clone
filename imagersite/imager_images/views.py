@@ -33,7 +33,7 @@ def album_create(request, **kwargs):
     return render(
         request,
         "photo_upload.html",
-        {"form": Album}
+        {"form": Album, "what": "album"}
     )
 
 
@@ -55,5 +55,5 @@ def photo_create(request, **kwargs):
         return render(
             request,
             "photo_upload.html",
-            {"form": NewImage()}
+            {"form": NewImage(), "what": "photo"}
         )
