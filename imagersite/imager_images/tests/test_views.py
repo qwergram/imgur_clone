@@ -38,7 +38,10 @@ class AlbumViewTestCase(TestCase):
     def setUp(self):
         self.client = Client()
 
-        self.user = UserFactory.create()
+        self.user = UserFactory.create(
+            username="user",
+            password="password",
+        )
         self.photo = PhotoFactory.create(
             owner=self.user.profile
         )
@@ -55,7 +58,15 @@ class AlbumViewTestCase(TestCase):
         self.assertTrue(self.photo in self.album.photos.all())
 
     def test_view_album_view_is_correct(self):
-        self.assertTrue(self.photo.title in self.response.content.decode())
+        self.assertContains(self.response, self.photo.title)
+
+    def test_album_shows_in_library(self):
+        _ = self.client.get(resolve_url('auth_login'), {
+            'username': self.user.username,
+            'password': "password",
+        })
+        library_response = self.client.get(resolve_url('library'))
+        self.assertContains(library_response, resolve_url('albums', album_id=self.album.id))
 
 
 class PrivatePhotoViewTestCase(TestCase):
