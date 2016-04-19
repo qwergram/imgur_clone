@@ -1,9 +1,8 @@
 # coding=utf-8
-from django.shortcuts import render, get_object_or_404, Http404
+from django.shortcuts import render, get_object_or_404, Http404, redirect
 from django.http import HttpResponse
 from .models import Album, Photo, PUBLIC, PRIVATE, PRIVACY_CHOICES
 from .forms import NewImage, NewAlbum
-from django import forms
 
 
 def latest_library_view(request, **kwargs):
@@ -49,7 +48,7 @@ def photo_create(request, **kwargs):
                 photo=form.cleaned_data.get('photo'),
             )
             photo.save()
-            return HttpResponse('Upload success!')
+            return redirect('photos_view', photo_id=photo.id)
         return HttpResponse('Upload failed!')
     else:
         return render(
