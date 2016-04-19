@@ -143,16 +143,16 @@ class RegisterPageViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_register_email_created(self):
-        response = self.register()
+        _ = self.register()
         self.assertEqual(len(mail.outbox), 1)
 
     def test_register_email_address_correct(self):
-        response = self.register()
+        _ = self.register()
         letter = mail.outbox[0]
         self.assertEqual(letter.recipients()[0], "kent@hiscompany.com")
 
     def test_register_email_content_correct(self):
-        response = self.register()
+        _ = self.register()
         letter = mail.outbox[0]
         self.assertTrue("Click here to complete your Registration\n</a>" in letter.message().get_payload())
         self.assertTrue("- Waffles" in letter.message().get_payload())
