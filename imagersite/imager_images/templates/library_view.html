@@ -4,10 +4,17 @@
 <!-- <h1>YOU ARE AT LIBRARY VIEW!</h1> -->
 {% for photo in photos %}
 
-  <article class="thumb">
-    <a href="{% url 'photos_view' photo.id %}" class="image"><img src="{{photo.photo.url}}" alt="" /></a>
-    <h2>{{photo.title}}</h2>
-  </article>
+  {% if photo.photo %}
+    <article class="thumb">
+      <a href="{% url 'photos_view' photo.id %}" class="image"><img src="{{photo.photo.url}}" alt="" /></a>
+      <h2>{{photo.title}}</h2>
+    </article>
+  {% else %}
+    <article class="thumb">
+      <a href="{% url 'albums' photo.id %}" class="image"><img src="{{photo.cover_photo.photo.url}}" alt="" /></a>
+      <h2>{{photo.title}}</h2>
+    </article>
+  {% endif %}
 
 {% endfor %}
 {% endblock %}
