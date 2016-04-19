@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from .models import ImagerProfile
@@ -45,7 +45,9 @@ def profile_edit(request, *args, **kwargs):
             profile.user.email = form.cleaned_data.get('email')
             if form.cleaned_data.get('password') and form.cleaned_data.get('password') == form.cleaned_data.get('password_confirm'):
                 profile.user.set_password(form.cleaned_data.get('password'))
-            return HttpResponse("POST method!")
+            profile.save()
+            profile.user.save()
+            return redirect('profile')
 
         return HttpResponse("Invalid!")
     else:
