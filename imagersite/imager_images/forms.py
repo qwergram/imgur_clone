@@ -1,6 +1,7 @@
 from django import forms
 from .models import PRIVACY_CHOICES
 
+
 class NewImage(forms.Form):
     title = forms.CharField(max_length=255)
     description = forms.CharField()
