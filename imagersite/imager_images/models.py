@@ -15,6 +15,9 @@ PRIVACY_CHOICES = (
 )
 
 
+def image_path(i, f):
+    return 'user_{}/{}'.format(i.user.id, f)
+
 class Photo(models.Model):
     """A single photo that can be uploaded by a user."""
 
@@ -30,7 +33,7 @@ class Photo(models.Model):
     date_modified = models.DateTimeField(auto_now=True, null=True, blank=True)
     date_published = models.DateTimeField(null=True, blank=True)
 
-    photo = models.ImageField(upload_to='media')
+    photo = models.ImageField(upload_to=image_path)
 
 
 class Album(models.Model):
