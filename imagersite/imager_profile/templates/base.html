@@ -32,7 +32,12 @@
 
 				<!-- Main -->
 					<div id="main">
-
+						{% block photos %}
+						<article class="thumb">
+							<a href="{% url 'photo_create' %}" class="image"><img src="{% static "imager_profile/assets/images/fulls/01.jpg"}" alt="" /></a>
+							<h2>{{photo.title}}</h2>
+						</article>
+						{% endblock %}
 					</div>
 
 				<!-- Footer -->
@@ -48,17 +53,15 @@
 									</p>
 								</section>
 								<section>
-									<ul>
-					          <li><a href="{% url 'library' %}">Library</a></li>
-					          <li><a href="{% url 'photo_create' %}">Upload Image</a></li>
-					          <li><a href="{% url 'album_create' %}">Create Album</a></li>
-										{% if user.is_authenticated %}
-											<li><a href="{% url "auth_logout" %}" class="button big fit">Log Out</a></li>
-										{% else %}
-											<li><a href="{% url "auth_login" %}" class="button big fit">Log In</a></li>
-											<li><a href="{% url "registration_register" %}" class="button big fit">Register</a></li>
-										{% endif %}
-					        </ul>
+				          <a href="{% url 'library' %}" class="button">Library</a><br/>
+				          <a href="{% url 'photo_create' %}" class="button">Upload Image</a><br/>
+				          <a href="{% url 'album_create' %}" class="button">Create Album</a><br/>
+									{% if user.is_authenticated %}
+										<a href="{% url "auth_logout" %}" class="button">Log Out</a><br/>
+									{% else %}
+										<a href="{% url "auth_login" %}" class="button">Log In</a><br/>
+										<a href="{% url "registration_register" %}" class="button">Register</a><br/>
+									{% endif %}
 								</section>
 								<p class="copyright">
 									&copy; Norton & Kent. Design: <a href="http://html5up.net">HTML5 UP</a>.
