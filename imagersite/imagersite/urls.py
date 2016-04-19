@@ -18,7 +18,7 @@ from django.contrib import admin
 from imagersite import settings
 from django.conf.urls.static import static
 
-from imager_profile.views import IndexView, profile_view
+from imager_profile.views import IndexView, profile_view, profile_edit
 from imager_images.views import (
     latest_library_view,
     album_view,
@@ -46,7 +46,7 @@ hmac_patterns = [
 profile_patterns = [
     url(r'^$', IndexView.as_view(), name='homepage'),
     url(r'^profile/(?:(?P<profile_id>\d+)/)?$', profile_view, name='profile'),
-    # url(r'^profile/edit/$', profile_edit, name='profile_edit')
+    url(r'^profile/edit/$', profile_edit, name='profile_edit')
 ]
 
 admin_patterns = [
