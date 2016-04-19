@@ -7,4 +7,4 @@ class EditProfile(forms.Form):
     personality_type = forms.CharField(max_length=4)
     category = forms.CharField(max_length=255)
     github = forms.URLField()
-    following = forms.MultipleChoiceField(choices=zip(profile.objects.all(), profile.objects.all()))
+    # following = forms.MultipleChoiceField(choices=zip(profile.objects.all(), profile.objects.all()))
