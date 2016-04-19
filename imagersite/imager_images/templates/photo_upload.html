@@ -32,14 +32,7 @@
 		<!-- Signup Form -->
 			{% if user.is_authenticated %}
 				<form id="signup-form" method="POST" style="color: #999;" enctype="multipart/form-data">
-					<div><label>Title</label><br/>
-					{{form.title}}<br/></div>
-					<div><label>Description</label><br/>
-					{{form.description}}<br/></div>
-					<div><label>Privacy</label><br/>
-					{{form.published}}<br/></div>
-					<div><label>Your photo</label><br/>
-					{{form.photo}}<br/></div>
+					{{form}}
 					{% csrf_token %}
 					<div><input type="submit" value="Upload Photo" /></div>
 				</form>
