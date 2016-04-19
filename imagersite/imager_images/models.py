@@ -16,7 +16,7 @@ PRIVACY_CHOICES = (
 
 
 def image_path(instance, file_name):
-    return 'media/{0}/{1}'.format(instance.user.id, file_name)
+    return 'media/{0}/{1}'.format(instance.owner.id, file_name)
 
 
 class Photo(models.Model):
