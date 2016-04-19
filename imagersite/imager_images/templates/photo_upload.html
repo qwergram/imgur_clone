@@ -14,21 +14,37 @@
 		<link rel="stylesheet" href="{% static "imager_images/upload/assets/css/main.css" %}" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="{% static "imager_images/album/assets/css/ie8.css" %}" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="{% static "imager_images/album/assets/css/ie9.css" %}" /><![endif]-->
+		<style>
+			html {
+				background-color: #fff;
+			}
+		</style>
 	</head>
 	<body>
 
 		<!-- Header -->
 			<header id="header">
-				<h1>Upload an image for the world to see</h1>
+				<h1>Upload an image for the world to see{% if user.is_authenticated %}, {{user}}{% endif %}</h1>
 				<p>A simple template for shwoing the world your image<br />
 				Brought to you by <a href="http://html5up.net">HTML5 UP</a>.</p>
 			</header>
 
 		<!-- Signup Form -->
-			<form id="signup-form" method="post" action="#">
-				{{form}}
-				<input type="submit" value="Sign Up" />
-			</form>
+			{% if user.is_authenticated %}
+				<form id="signup-form" method="post" action="#" style="color: #999;" enctype="multipart/form-data">
+					<div><label>Title</label><br/>
+					{{form.title}}<br/></div>
+					<div><label>Description</label><br/>
+					{{form.description}}<br/></div>
+					<div><label>Privacy</label><br/>
+					{{form.published}}<br/></div>
+					<div><label>Your photo</label><br/>
+					{{form.photo}}<br/></div>
+					<div><input type="submit" value="Upload Photo" /></div>
+				</form>
+			{% else %}
+				<a href="{% url "auth_login" %}" class="button">Login</a>
+			{% endif %}
 
 		<!-- Footer -->
 			<footer id="footer">
