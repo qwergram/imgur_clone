@@ -36,6 +36,15 @@ def profile_edit(request, *args, **kwargs):
     if request.method == "POST":
         form = EditProfile(request.POST)
         if form.is_valid():
+            profile.camera = form.cleaned_data.get('camera')
+            profile.personality_type = form.cleaned_data.get('personality_type')
+            profile.category = form.cleaned_data.get('category')
+            profile.github = form.cleaned_data.get('github')
+            profile.user.first_name = form.cleaned_data.get('first_name')
+            profile.user.last_name = form.cleaned_data.get('last_name')
+            profile.user.email = form.cleaned_data.get('email')
+            if form.cleaned_data.get('password') and form.cleaned_data.get('password') == form.cleaned_data.get('password_confirm'):
+                profile.user.set_password(form.cleaned_data.get('password'))
             return HttpResponse("POST method!")
 
         return HttpResponse("Invalid!")
