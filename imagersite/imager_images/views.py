@@ -60,8 +60,8 @@ def photo_create(request, **kwargs):
 def photo_edit(request, photo_id, **kwargs):
     if request.method == "POST":
         form = EditPhoto(request.POST, request.FILES)
-        if form.is_valid():
-            photo = get_object_or_404(Photo, id=photo_id)
+        photo = get_object_or_404(Photo, id=photo_id)
+        if form.is_valid() and request.user.profile.id == photo.owner.id:
             import pdb; pdb.set_trace()
             photo.title = form.cleaned_data.get('title')
             photo.description = form.cleaned_data.get('description')
