@@ -19,7 +19,13 @@ from imagersite import settings
 from django.conf.urls.static import static
 
 from imager_profile.views import IndexView, profile_view
-from imager_images.views import latest_library_view, album_view, photo_view, album_create, photo_create
+from imager_images.views import (
+    latest_library_view,
+    album_view,
+    photo_view,
+    album_create,
+    photo_create
+)
 
 
 image_patterns = [
