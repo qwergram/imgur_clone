@@ -1,31 +1,24 @@
 from django import forms
-from .models import PRIVACY_CHOICES, Photo
+from .models import Photo, Album
 
 
-class NewImage(forms.Form):
-    title = forms.CharField(max_length=255)
-    description = forms.CharField()
-    published = forms.ChoiceField(choices=PRIVACY_CHOICES)
-    photo = forms.ImageField()
+class NewImage(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['title', 'description', 'published', 'photo']
 
 
-class NewAlbum(forms.Form):
+class NewAlbum(forms.ModelForm):
+    class Meta:
+        model = Album
+        fields = ['title', 'description', 'published', 'photos']
 
-    def __init__(self, profile, *args, **kwargs):
+    def __init__(self, *args, profile_=None, **kwargs):
         super(NewAlbum, self).__init__(*args, **kwargs)
-        self.fields['photo'].choices = zip(
-                Photo.objects.filter(owner__id=profile.id),
-                Photo.objects.filter(owner__id=profile.id))
-
-    title = forms.CharField(max_length=255)
-    description = forms.CharField()
-    published = forms.ChoiceField(choices=PRIVACY_CHOICES)
-    photo = forms.MultipleChoiceField()
+        self.fields['photos'].queryset = self.fields['photos'].queryset.filter(owner=profile_)
 
 
-class EditPhoto(forms.Form):
-
-    title = forms.CharField(max_length=255)
-    description = forms.CharField()
-    published = forms.ChoiceField(choices=PRIVACY_CHOICES)
-    photo = forms.ImageField(required=False)
+class EditPhoto(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['title', 'description', 'published', 'photo']

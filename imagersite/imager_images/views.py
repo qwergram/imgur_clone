@@ -20,7 +20,7 @@ def album_view(request, album_id=None, **kwargs):
 
 def photo_view(request, photo_id=None, **kwrags):
     photo = get_object_or_404(Photo, id=int(photo_id))
-    if photo.published == PRIVATE and photo.owner.user.id != request.user.id:
+    if photo.published == PRIVATE and photo.owner.user != request.user:
         raise Http404
     return render(request, "photo_view.html", {"photo": photo})
 
@@ -28,11 +28,11 @@ def photo_view(request, photo_id=None, **kwrags):
 def album_create(request, **kwargs):
     # raise Http404("wat")
     print(Photo.objects.filter(owner__id=request.user.profile.id))
-    Album = NewAlbum(request.user.profile)
+    album = NewAlbum(profile_=request.user.profile)
     return render(
         request,
         "photo_upload.html",
-        {"form": Album, "what": "album"}
+        {"form": album, "what": "album"}
     )
 
 
@@ -56,6 +56,7 @@ def photo_create(request, **kwargs):
             "photo_upload.html",
             {"form": NewImage(), "what": "photo"}
         )
+
 
 def photo_edit(request, photo_id, **kwargs):
     if request.method == "POST":
