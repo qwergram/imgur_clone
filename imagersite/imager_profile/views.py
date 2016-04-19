@@ -19,10 +19,7 @@ class IndexView(TemplateView):
 
 def profile_view(request, profile_id=None, **kwargs):
     if not profile_id:
-        if request.user.is_authenticated():
-            profile = request.user.profile
-        else:
-            return redirect('homepage')
+        profile = request.user.profile
     else:
         profile = get_object_or_404(ImagerProfile, id=int(profile_id))
 

@@ -66,7 +66,11 @@ class OwnProfileViewTestCase(TestCase):
             "username": self.user.username,
             "password": "icantsayit"
         })
+        self.login_response_url = login_response.url
         self.response = self.client.get(login_response.url)
+
+    def test_login_redirect_is_homepage(self):
+        self.assertEqual(self.login_response_url, resolve_url('profile'))
 
     def test_profile_page_exists(self):
         self.assertEqual(self.response.status_code, 200)
@@ -82,10 +86,6 @@ class OwnProfileViewTestCase(TestCase):
 
     def test_username_appears(self):
         self.assertContains(self.response, self.user.username)
-
-    def test_static_image_appears(self):
-        self.assertContains(self.response, '<!-- no public photos -->')
-
 
 class LogoutPageViewTestCase(TestCase):
 
