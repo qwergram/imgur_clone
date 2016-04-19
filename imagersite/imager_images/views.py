@@ -21,3 +21,11 @@ def photo_view(request, photo_id=None, **kwrags):
     if photo.published == PRIVATE and photo.owner.user.id != request.user.id:
         raise Http404
     return render(request, "photo_view.html", {"photo": photo})
+
+
+def album_create(request, **kwargs):
+    pass
+
+
+def photo_create(request, **kwargs):
+    pass
