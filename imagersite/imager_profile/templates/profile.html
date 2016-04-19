@@ -1,54 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block main_content %}
+{% if show_edits %}
+  <form method="post">
+    {{form}}
+    {% csrf_token %}
+    <input type="submit" />
+  </form>
+{% endif %}
+{% endblock %}
 
-<!-- <h1>YOU ARE AT PROFILES</h1> -->
-
-<!-- Wrapper -->
-
-  <!-- Main -->
-    <div id="main">
-
-      <!-- Post -->
-        <article class="post">
-          <header>
-            <div class="title">
-              <h2><a href="#">Latest Cool things</a></h2>
-              <p>Lorem ipsum dolor amet nullam consequat etiam feugiat</p>
-            </div>
-            <div class="meta">
-              <time class="published" datetime="2015-10-22">October 22, 2015</time>
-              <a href="#" class="author"><span class="name">Jane Doe</span><img src="{% static "imager_profile/images/avatar.jpg" %}" alt="" /></a>
-            </div>
-          </header>
-          {% if random_photo %}
-            <a href="#" class="image featured"><img src="{{ random_photo.file.url }}" alt="" /></a>
-          {% else %}
-            <!-- no public photos -->
-            <a href="#" class="image featured"><img src="{% static "imager_profile/images/default.jpg" %}" alt="" /></a>
-          {% endif %}
-          <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla. Cras vehicula tellus eu ligula viverra, ac fringilla turpis suscipit. Quisque vestibulum rhoncus ligula.</p>
-          <footer>
-            <ul class="actions">
-              <li><a href="#" class="button big">Continue Reading</a></li>
-            </ul>
-            <ul class="stats">
-              <li><a href="#">General</a></li>
-              <li><a href="#" class="icon fa-heart">28</a></li>
-              <li><a href="#" class="icon fa-comment">128</a></li>
-            </ul>
-          </footer>
-        </article>
-
-
-
-      <!-- Pagination -->
-        <ul class="actions pagination">
-          <li><a href="" class="disabled button big previous">Previous Page</a></li>
-          <li><a href="#" class="button big next">Next Page</a></li>
-        </ul>
-
-      </div>
-
-
+{% block photos %}
+  {% for photo in photos %}
+    <article class="thumb">
+      <a href="{% url 'photos_view' photo.id %}" class="image"><img src="{{photo.photo.url}}" alt="" /></a>
+      <h2>{{photo.title}}</h2>
+    </article>
+  {% endfor %}
 {% endblock %}

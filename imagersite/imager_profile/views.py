@@ -12,13 +12,8 @@ class IndexView(TemplateView):
     template_name = "index.html"
 
     def get_context_data(self):
-        try:
-            photo = Photo.objects.filter(published=PUBLIC).order_by("?")[0]
-        except IndexError:
-            photo = None
-
         return {
-            "random_photo": photo
+            "photos": Photo.objects.filter(published=PUBLIC).order_by("?")[:100]
         }
 
 
@@ -31,7 +26,10 @@ def profile_view(request, profile_id=None, **kwargs):
     else:
         profile = get_object_or_404(ImagerProfile, id=int(profile_id))
 
-    return render(request, "profile.html", context={"profile": profile})
+    return render(request, "profile.html", context={
+        "profile": profile,
+        'photos': Photo.objects.filter(owner=profile),
+    })
 
 
 def profile_edit(request, *args, **kwargs):
@@ -54,7 +52,7 @@ def profile_edit(request, *args, **kwargs):
 
         return HttpResponse("Invalid!")
     else:
-        return render(request, "edit_profile.html", {"form": EditProfile(initial={
+        return render(request, "profile.html", {"form": EditProfile(initial={
             "camera": profile.camera,
             "personality_type": profile.personality_type,
             "category": profile.category,
@@ -62,4 +60,4 @@ def profile_edit(request, *args, **kwargs):
             "first_name": profile.user.first_name,
             "last_name": profile.user.last_name,
             "email": profile.user.email,
-        })})
+        }), "show_edits": True, 'photos': Photo.objects.filter(owner=profile)})
