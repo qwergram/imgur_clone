@@ -1,7 +1,7 @@
 # coding=utf-8
 from django.shortcuts import render, get_object_or_404, Http404, redirect
 from django.http import HttpResponse
-from .models import Album, Photo, PUBLIC, PRIVATE, PRIVACY_CHOICES
+from .models import Album, Photo, PUBLIC, PRIVATE
 from .forms import NewImage, NewAlbum, EditPhoto
 
 
@@ -14,11 +14,13 @@ def latest_library_view(request, **kwargs):
 
 
 def album_view(request, album_id=None, **kwargs):
-    photos = get_object_or_404(Album, id=int(album_id)).photos.all()
-    return render(request, "library_view.html", {"photos": photos})
+    album = get_object_or_404(Album, id=int(album_id))
+    if album.published == PRIVATE and album.owner.user != request.user:
+        raise Http404
+    return render(request, "library_view.html", {"photos": album.photos.all()})
 
 
-def photo_view(request, photo_id=None, **kwrags):
+def photo_view(request, photo_id=None, **kwargs):
     photo = get_object_or_404(Photo, id=int(photo_id))
     if photo.published == PRIVATE and photo.owner.user != request.user:
         raise Http404
@@ -26,14 +28,35 @@ def photo_view(request, photo_id=None, **kwrags):
 
 
 def album_create(request, **kwargs):
-    # raise Http404("wat")
-    print(Photo.objects.filter(owner__id=request.user.profile.id))
-    album = NewAlbum(profile_=request.user.profile)
-    return render(
-        request,
-        "photo_upload.html",
-        {"form": album, "what": "album"}
-    )
+    if request.method == 'POST':
+        if not request.user.is_authenticated():
+            return redirect('auth_login')
+
+        form = NewAlbum(request.POST, profile_=request.user.profile)
+        if form.is_valid():
+            album = Album.objects.create(
+                owner=request.user.profile,
+                title=form.cleaned_data.get('title'),
+                description=form.cleaned_data.get('description'),
+                published=form.cleaned_data.get('published'),
+            )
+            album.save()
+            album.photos.add(*form.cleaned_data['photos'])
+            return redirect('albums', album_id=album.id)
+        else:
+            return render(
+                request,
+                "photo_upload.html",
+                {'form': form, 'what': 'album'}
+            )
+    else:
+        print(Photo.objects.filter(owner__id=request.user.profile.id))
+        form = NewAlbum(profile_=request.user.profile)
+        return render(
+            request,
+            "photo_upload.html",
+            {"form": form, "what": "album"}
+        )
 
 
 def photo_create(request, **kwargs):
