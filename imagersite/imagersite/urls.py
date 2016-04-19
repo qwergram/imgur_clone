@@ -24,7 +24,8 @@ from imager_images.views import (
     album_view,
     photo_view,
     album_create,
-    photo_create
+    photo_create,
+    photo_edit
 )
 
 
@@ -45,6 +46,7 @@ hmac_patterns = [
 profile_patterns = [
     url(r'^$', IndexView.as_view(), name='homepage'),
     url(r'^profile/(?:(?P<profile_id>\d+)/)?$', profile_view, name='profile')
+    url(r'^profile/edit/$', profile_edit, name='profile_edit')
 ]
 
 admin_patterns = [
