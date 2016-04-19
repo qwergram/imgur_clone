@@ -18,6 +18,6 @@ def album_view(request, album_id=None, **kwargs):
 
 def photo_view(request, photo_id=None, **kwrags):
     photo = get_object_or_404(Photo, id=int(photo_id))
-    if photo.published == PRIVATE and photo.owner is not request.user:
+    if photo.published == PRIVATE and photo.owner.user.id != request.user.id:
         raise Http404
     return render(request, "photo_view.html", {"photo": photo})
