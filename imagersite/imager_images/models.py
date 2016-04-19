@@ -16,8 +16,7 @@ PRIVACY_CHOICES = (
 
 
 class Photo(models.Model):
-    "A single photo that can be uploaded by a user."
-
+    """A single photo that can be uploaded by a user."""
 
     def __str__(self):
         return self.title
@@ -35,7 +34,7 @@ class Photo(models.Model):
 
 
 class Album(models.Model):
-    "A collection of photos that be uploaded by a user."
+    """A collection of photos that be uploaded by a user."""
     def __str__(self):
         return self.title
 
@@ -53,17 +52,17 @@ class Album(models.Model):
 
     @property
     def latest_modified(self):
-        "Get the latest modified photo"
+        """Get the latest modified photo"""
         return self.photos.order_by('-date_modified')[0]
 
     @property
     def latest_published(self):
-        "Get the latest published photo"
+        """Get the latest published photo"""
         return self.photos.order_by('-date_published')[0]
 
     @property
     def latest_uploaded(self):
-        "Get the latest uploaded photo"
+        """Get the latest uploaded photo"""
         return self.photos.order_by('-date_uploaded')[0]
 
     def add_photo(self, photo):
