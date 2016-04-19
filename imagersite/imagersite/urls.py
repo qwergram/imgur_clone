@@ -33,8 +33,8 @@ hmac_patterns = [
 ]
 
 profile_patterns = [
-    url(r'^$', IndexView.as_view()),
-    url(r'^profile/(?:(?P<profile_id>\d+)/)?$', profile_view)
+    url(r'^$', IndexView.as_view(), name='homepage'),
+    url(r'^profile/(?:(?P<profile_id>\d+)/)?$', profile_view, name='profile')
 ]
 
 admin_patterns = [
