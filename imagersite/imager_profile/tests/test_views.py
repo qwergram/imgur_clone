@@ -281,7 +281,7 @@ class OtherProfileViewTestCase(TestCase):
         self.assertContains(self.response, "<h1>YOU ARE AT PROFILES</h1>")
 
     def test_profile_name_appears(self):
-        self.assertContains(self.response, 'kent</a></h1>')
+        self.assertContains(self.response, 'kent\'s profile</h1>')
 
     def test_other_profile_appears(self):
-        self.assertContains(self.response2, 'norton</a></h1>')
+        self.assertContains(self.response2, 'norton\'s profile</h1>')

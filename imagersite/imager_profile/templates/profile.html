@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block main_content %}
-<h1>{{this_user}}'s profile</h1>
+<h1>{{profile.user}}'s profile</h1>
 {% if show_edits %}
   <form method="post">
     {{form}}
