@@ -17,6 +17,13 @@ best way that I learn was by building tests.
 
 """
 
+TINY_IMAGE = (
+    b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x01\x00\x00\x00\x007n\xf9$'
+    b'\x00\x00\x00\x10IDATx\x9cb`\x01\x00\x00\x00\xff\xff\x03\x00\x00\x06\x00\x05W\xbf\xab\xd4\x00\x00'
+    b'\x00\x00IEND\xaeB`\x82'  # very small valid PNG file
+)
+
+
 class PhotoFactory(factory.django.DjangoModelFactory):
 
     class Meta:
@@ -25,7 +32,7 @@ class PhotoFactory(factory.django.DjangoModelFactory):
     title = factory.Faker('sentence')
     description = factory.Faker('text')
     published = random.choice(PRIVACY_CHOICES)
-    photo = SimpleUploadedFile(name="bg.png", content=b"almost an image", content_type='text/png')
+    photo = SimpleUploadedFile(name="bg.png", content=TINY_IMAGE, content_type='text/png')
 
 
 class AlbumFactory(factory.django.DjangoModelFactory):
@@ -140,7 +147,7 @@ class SingleImageTestCase(TestCase):
         self.assertTrue(self.photo.photo)
 
     def test_photo_upload_correctly(self):
-        self.assertTrue(self.photo.photo.read() == b'almost an image')
+        self.assertTrue(self.photo.photo.read() == TINY_IMAGE)
 
     def test_photo_attributes_exist(self):
         self.assertTrue(hasattr(self.photo.photo, 'url'))
