@@ -1,5 +1,6 @@
 # coding=utf-8
 from django.shortcuts import render, get_object_or_404, Http404
+from django.http import HttpResponse
 from .models import Album, Photo, PUBLIC, PRIVATE, PRIVACY_CHOICES
 from .forms import NewImage
 
@@ -25,6 +26,7 @@ def photo_view(request, photo_id=None, **kwrags):
 
 
 def album_create(request, **kwargs):
+    raise Http404("wat")
     return render(
         request,
         "photo_upload.html",
@@ -33,4 +35,23 @@ def album_create(request, **kwargs):
 
 
 def photo_create(request, **kwargs):
-    pass
+    print(request.method)
+    if request.method == "POST":
+        form = NewImage(request.POST, request.FILES)
+        if form.is_valid() and request.user.is_authenticated():
+            photo = Photo(
+                owner=request.user.profile,
+                title=form.cleaned_data.get('title'),
+                description=form.cleaned_data.get('description'),
+                published=form.cleaned_data.get('published'),
+                photo=form.cleaned_data.get('photo'),
+            )
+            photo.save()
+            return HttpResponse('Upload success!')
+        return HttpResponse('Upload failed!')
+    else:
+        return render(
+            request,
+            "photo_upload.html",
+            {"form": NewImage()}
+        )
