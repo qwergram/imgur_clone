@@ -66,26 +66,26 @@ class OwnProfileViewTestCase(TestCase):
             "username": self.user.username,
             "password": "icantsayit"
         })
+        self.login_response_url = login_response.url
         self.response = self.client.get(login_response.url)
+
+    def test_login_redirect_is_homepage(self):
+        self.assertEqual(self.login_response_url, resolve_url('profile'))
 
     def test_profile_page_exists(self):
         self.assertEqual(self.response.status_code, 200)
 
     def test_logout_button_appears(self):
-        self.assertContains(self.response, ' class="button big fit">Log Out</a></li>')
+        self.assertContains(self.response, ' class="button">Log Out</a></li>')
 
     def test_login_doesnt_exist(self):
-        self.assertNotContains(self.response, ' class="button big fit">Log In</a></li>')
+        self.assertNotContains(self.response, ' class="button">Log In</a></li>')
 
     def test_register_doesnt_exist(self):
-        self.assertNotContains(self.response, ' class="button big fit">Register</a></li>')
+        self.assertNotContains(self.response, ' class="button">Register</a></li>')
 
     def test_username_appears(self):
         self.assertContains(self.response, self.user.username)
-
-    def test_static_image_appears(self):
-        self.assertContains(self.response, '<!-- no public photos -->')
-
 
 class LogoutPageViewTestCase(TestCase):
 
@@ -221,10 +221,10 @@ class IndexPageDefaultViewTestCase(TestCase):
         self.assertNotContains(self.response, '<p>Hello World!</p>')
 
     def test_login_button_appears(self):
-        self.assertContains(self.response, 'class="button big fit">Log In</a>')
+        self.assertContains(self.response, 'class="button">Log In</a>')
 
     def test_register_button_appears(self):
-        self.assertContains(self.response, ' class="button big fit">Register</a></li>')
+        self.assertContains(self.response, ' class="button">Register</a></li>')
 
     def test_username_filler_appears(self):
         self.assertContains(self.response, 'Imgur Clone')
