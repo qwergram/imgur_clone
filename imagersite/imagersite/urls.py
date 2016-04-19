@@ -33,9 +33,9 @@ image_patterns = [
     url(r'^images/library/$', latest_library_view, name="library"),
     url(r'^images/albums/(?P<album_id>\d+)/$', album_view, name="albums"),
     url(r'^images/photos/(?P<photo_id>\d+)/$', photo_view, name="photos_view"),
-
     url(r'^images/albums/add/$', album_create, name="album_create"),
     url(r'^images/photos/add/$', photo_create, name="photo_create"),
+    url(r'^images/photos/(?P<photo_id>\d+)/edit/', photo_edit, name="photo_edit"),
 
 ]
 
@@ -45,8 +45,8 @@ hmac_patterns = [
 
 profile_patterns = [
     url(r'^$', IndexView.as_view(), name='homepage'),
-    url(r'^profile/(?:(?P<profile_id>\d+)/)?$', profile_view, name='profile')
-    url(r'^profile/edit/$', profile_edit, name='profile_edit')
+    url(r'^profile/(?:(?P<profile_id>\d+)/)?$', profile_view, name='profile'),
+    # url(r'^profile/edit/$', profile_edit, name='profile_edit')
 ]
 
 admin_patterns = [
