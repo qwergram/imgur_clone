@@ -15,8 +15,9 @@ PRIVACY_CHOICES = (
 )
 
 
-def image_path(i, f):
-    return 'user_{}/{}'.format(i.user.id, f)
+def image_path(instance, file_name):
+    return 'media/{0}/{1}'.format(instance.user.id, file_name)
+
 
 class Photo(models.Model):
     """A single photo that can be uploaded by a user."""
