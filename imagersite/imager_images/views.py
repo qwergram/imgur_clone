@@ -1,6 +1,7 @@
 # coding=utf-8
 from django.shortcuts import render, get_object_or_404, Http404
-from .models import Album, Photo, PUBLIC, PRIVATE
+from .models import Album, Photo, PUBLIC, PRIVATE, PRIVACY_CHOICES
+from .forms import NewImage
 
 
 def latest_library_view(request, **kwargs):
@@ -24,7 +25,11 @@ def photo_view(request, photo_id=None, **kwrags):
 
 
 def album_create(request, **kwargs):
-    pass
+    return render(
+        request,
+        "photo_upload.html",
+        {"form": NewImage()}
+    )
 
 
 def photo_create(request, **kwargs):
