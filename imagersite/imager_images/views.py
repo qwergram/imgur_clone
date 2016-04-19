@@ -2,7 +2,8 @@
 from django.shortcuts import render, get_object_or_404, Http404
 from django.http import HttpResponse
 from .models import Album, Photo, PUBLIC, PRIVATE, PRIVACY_CHOICES
-from .forms import NewImage
+from .forms import NewImage, NewAlbum
+from django import forms
 
 
 def latest_library_view(request, **kwargs):
@@ -26,16 +27,17 @@ def photo_view(request, photo_id=None, **kwrags):
 
 
 def album_create(request, **kwargs):
-    raise Http404("wat")
+    # raise Http404("wat")
+    print(Photo.objects.filter(owner__id=request.user.profile.id))
+    Album = NewAlbum(request.user.profile)
     return render(
         request,
         "photo_upload.html",
-        {"form": NewImage()}
+        {"form": Album}
     )
 
 
 def photo_create(request, **kwargs):
-    print(request.method)
     if request.method == "POST":
         form = NewImage(request.POST, request.FILES)
         if form.is_valid() and request.user.is_authenticated():
