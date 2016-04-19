@@ -27,8 +27,8 @@ class Photo(models.Model):
 
     owner = models.ForeignKey(ImagerProfile)
     title = models.CharField(max_length=255, default="Example Title")
-    description = models.TextField(default="Write a short description about your photo!")
-    published = models.CharField(choices=PRIVACY_CHOICES, max_length=16, default=PUBLIC)
+    description = models.TextField(default="Write a short description about your photo!", max_length=1024)
+    published = models.CharField(choices=PRIVACY_CHOICES, max_length=255, default=PUBLIC)
 
     date_uploaded = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     date_modified = models.DateTimeField(auto_now=True, null=True, blank=True)
@@ -45,7 +45,7 @@ class Album(models.Model):
     owner = models.ForeignKey(ImagerProfile)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    published = models.CharField(choices=PRIVACY_CHOICES, max_length=16)
+    published = models.CharField(choices=PRIVACY_CHOICES, max_length=255)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(blank=True)
