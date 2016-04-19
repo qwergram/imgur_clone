@@ -76,13 +76,13 @@ class OwnProfileViewTestCase(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
     def test_logout_button_appears(self):
-        self.assertContains(self.response, ' class="button">Log Out</a></li>')
+        self.assertContains(self.response, ' class="button">Log Out</a>')
 
     def test_login_doesnt_exist(self):
-        self.assertNotContains(self.response, ' class="button">Log In</a></li>')
+        self.assertNotContains(self.response, ' class="button">Log In</a>')
 
     def test_register_doesnt_exist(self):
-        self.assertNotContains(self.response, ' class="button">Register</a></li>')
+        self.assertNotContains(self.response, ' class="button">Register</a>')
 
     def test_username_appears(self):
         self.assertContains(self.response, self.user.username)
@@ -224,7 +224,7 @@ class IndexPageDefaultViewTestCase(TestCase):
         self.assertContains(self.response, 'class="button">Log In</a>')
 
     def test_register_button_appears(self):
-        self.assertContains(self.response, ' class="button">Register</a></li>')
+        self.assertContains(self.response, ' class="button">Register</a>')
 
     def test_username_filler_appears(self):
         self.assertContains(self.response, 'Imgur Clone')
