@@ -22,7 +22,11 @@
 
 				<!-- Header -->
 					<header id="header">
-						<h1>{% block title %}<a href="/"><strong>Imager Clone</strong> by Norton and Kent</a>{% endblock %}</h1>
+						<h1>{% block title %}<a href="/"><strong>Imager Clone</strong> by Norton and Kent</a>{% endblock %}
+							| <strong><a href="{% url "homepage" %}">Home</a></strong>
+							| <strong><a href="{% url "library" %}">Library</a></strong>
+							| <strong><a href="{% url "profile" %}">Profile</a></strong>
+						</h1>
 						<nav>
 							<ul>
 								<li><a href="#footer" class="icon fa-info-circle">About</a></li>
