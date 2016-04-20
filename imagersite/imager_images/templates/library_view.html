@@ -11,7 +11,9 @@
     </article>
   {% else %}
     <article class="thumb">
-      <a href="{% url 'albums' photo.id %}" class="image"><img src="{{photo.cover_photo.photo.url}}" alt="" /></a>
+      <a href="{% url 'albums' photo.id %}" class="image"><img
+              src="{% static "imager_images/album/assets/img/album_icon.png" %}" alt=""
+        /></a>
       <h2>{{photo.title}}</h2>
     </article>
   {% endif %}

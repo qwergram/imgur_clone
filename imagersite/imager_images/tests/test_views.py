@@ -45,10 +45,12 @@ class AlbumViewTestCase(TestCase):
         self.photo = PhotoFactory.create(
             owner=self.user.profile
         )
+        self.photo.save()
         self.album = AlbumFactory.create(
             owner=self.user.profile
         )
-        self.album.add_photo(self.photo)
+        self.album.save()
+        self.album.photos.add(self.photo)
         self.response = self.client.get(resolve_url('albums', album_id=self.album.id))
 
     def test_view_album_exists(self):
@@ -66,6 +68,7 @@ class AlbumViewTestCase(TestCase):
             'password': "password",
         })
         library_response = self.client.get(resolve_url('library'))
+        import pdb; pdb.set_trace()
         self.assertContains(library_response, resolve_url('albums', album_id=self.album.id))
 
 
