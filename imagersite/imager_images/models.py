@@ -1,3 +1,4 @@
+# coding=utf-8
 from __future__ import unicode_literals
 from django.db import models
 from imager_profile.models import ImagerProfile
@@ -52,7 +53,6 @@ class Album(models.Model):
 
     photos = models.ManyToManyField('Photo', related_name='starred_in')
     cover_photo = models.ForeignKey(Photo, blank=True, null=True)
-
 
     @property
     def latest_modified(self):

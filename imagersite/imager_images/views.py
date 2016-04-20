@@ -1,34 +1,32 @@
 # coding=utf-8
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, Http404, redirect
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponseForbidden
 from .models import Album, Photo, PRIVATE
 from .forms import NewImage, NewAlbum, EditPhoto
 from itertools import chain
 
 
 @login_required
-def latest_library_view(request, **kwargs):
+def latest_library_view(request):
     return render(
         request,
         "library_view.html",
-        {"photos":
-            list(chain(
-                Album.objects.filter(owner=request.user.profile).order_by("-date_uploaded"),
-                Photo.objects.filter(owner=request.user.profile).order_by("-date_uploaded")
-            ))
-        }
+        {"photos": list(chain(
+            Album.objects.filter(owner=request.user.profile).order_by("-date_uploaded"),
+            Photo.objects.filter(owner=request.user.profile).order_by("-date_uploaded")
+        ))}
     )
 
 
-def album_view(request, album_id=None, **kwargs):
+def album_view(request, album_id=None):
     album = get_object_or_404(Album, id=int(album_id))
     if album.published == PRIVATE and album.owner.user != request.user:
         raise Http404
     return render(request, "library_view.html", {"photos": album.photos.all()})
 
 
-def photo_view(request, photo_id=None, **kwargs):
+def photo_view(request, photo_id=None):
     photo = get_object_or_404(Photo, id=int(photo_id))
     if photo.published == PRIVATE and photo.owner.user != request.user:
         raise Http404
@@ -36,7 +34,7 @@ def photo_view(request, photo_id=None, **kwargs):
 
 
 @login_required
-def album_create(request, **kwargs):
+def album_create(request):
     if request.method == 'POST':
         form = NewAlbum(request.POST, profile_=request.user.profile)
         if form.is_valid():
@@ -66,7 +64,7 @@ def album_create(request, **kwargs):
 
 
 @login_required
-def photo_create(request, **kwargs):
+def photo_create(request):
     if request.method == "POST":
         form = NewImage(request.POST, request.FILES)
         if form.is_valid():
@@ -94,7 +92,7 @@ def photo_create(request, **kwargs):
 
 
 @login_required
-def photo_edit(request, photo_id, **kwargs):
+def photo_edit(request, photo_id):
     if request.method == "POST":
         form = EditPhoto(request.POST, request.FILES)
         photo = get_object_or_404(Photo, id=photo_id)

@@ -1,6 +1,6 @@
+# coding=utf-8
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
 from django.views.generic import TemplateView
 from .models import ImagerProfile
 from .forms import EditProfile
@@ -18,7 +18,7 @@ class IndexView(TemplateView):
         }
 
 
-def profile_view(request, profile_id=None, **kwargs):
+def profile_view(request, profile_id=None):
     if not profile_id:
         if not request.user.is_authenticated():
             return redirect('homepage')
@@ -34,7 +34,7 @@ def profile_view(request, profile_id=None, **kwargs):
 
 
 @login_required
-def profile_edit(request, *args, **kwargs):
+def profile_edit(request):
     profile = request.user.profile
     if request.method == "POST":
         form = EditProfile(request.POST)
