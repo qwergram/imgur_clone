@@ -3,13 +3,18 @@ from django.shortcuts import render, get_object_or_404, Http404, redirect
 from django.http import HttpResponse
 from .models import Album, Photo, PUBLIC, PRIVATE
 from .forms import NewImage, NewAlbum, EditPhoto
-
+from itertools import chain
 
 def latest_library_view(request, **kwargs):
     return render(
         request,
         "library_view.html",
-        {"photos": Photo.objects.filter(published=PUBLIC).order_by("-date_uploaded")[:100]}
+        {"photos":
+            list(chain(
+                Album.objects.filter(published=PUBLIC).order_by("-date_uploaded")[:100],
+                Photo.objects.filter(published=PUBLIC).order_by("-date_uploaded")[:100]
+            ))
+        }
     )
 
 
