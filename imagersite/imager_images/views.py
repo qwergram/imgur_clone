@@ -69,7 +69,7 @@ def album_create(request, **kwargs):
 def photo_create(request, **kwargs):
     if request.method == "POST":
         form = NewImage(request.POST, request.FILES)
-        if form.is_valid() and request.user.is_authenticated():
+        if form.is_valid():
             photo = Photo(
                 owner=request.user.profile,
                 title=form.cleaned_data.get('title'),
@@ -79,7 +79,12 @@ def photo_create(request, **kwargs):
             )
             photo.save()
             return redirect('photos_view', photo_id=photo.id)
-        return HttpResponse('Upload failed!')
+        else:
+            return render(
+                request,
+                "photo_upload.html",
+                {'form': form, 'what': "photo"}
+            )
     else:
         return render(
             request,
@@ -111,12 +116,15 @@ def photo_edit(request, photo_id, **kwargs):
             return render(
                 request,
                 "photo_upload.html",
-                {"form": EditPhoto(initial={
-                    "title": photo.title,
-                    "description": photo.description,
-                    "published": photo.published,
-                    "photo": photo.photo,
-                }), "what": "photo"}
+                {
+                    "form": EditPhoto(initial={
+                        "title": photo.title,
+                        "description": photo.description,
+                        "published": photo.published,
+                        "photo": photo.photo,
+                    }),
+                    "what": "photo"
+                }
             )
         else:
             raise HttpResponseForbidden
