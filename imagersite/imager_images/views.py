@@ -95,7 +95,6 @@ def photo_edit(request, photo_id, **kwargs):
         photo = get_object_or_404(Photo, id=photo_id)
         if form.is_valid():
             if request.user.profile == photo.owner:
-                import pdb; pdb.set_trace()
                 photo.title = form.cleaned_data.get('title')
                 photo.description = form.cleaned_data.get('description')
                 photo.published = form.cleaned_data.get('published')

@@ -10,7 +10,10 @@ class LibraryImageTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.user = UserFactory.create()
+        self.user = UserFactory.create(
+            username="user",
+            password="password",
+        )
         self.photo = PhotoFactory.create(
             owner=self.user.profile
         )
@@ -18,19 +21,21 @@ class LibraryImageTestCase(TestCase):
             owner=self.user.profile,
             published=PRIVATE
         )
+        self.client.post(resolve_url('auth_login'), {
+            'username': self.user.username,
+            'password': "password",
+        })
         self.response = self.client.get(resolve_url('library'))
 
     def test_view_exists(self):
         self.assertTrue(self.response.status_code == 200)
 
     def test_view_is_correct(self):
-        self.assertTrue("<h1>YOU ARE AT LIBRARY VIEW!</h1>" in self.response.content.decode())
+        self.assertContains(self.response, "<!-- LIBRARY -->")
 
     def view_contains_images(self):
-        self.assertTrue('<article class="thumb">' in self.response.content.decode())
-
-    def view_contains_images_except_private(self):
-        self.assertFalse(self.private_photo.title in self.response.content.decode())
+        self.assertContains(self.response, self.photo.photo.url)
+        self.assertContains(self.response, self.private_photo.photo.url)
 
 
 class AlbumViewTestCase(TestCase):
@@ -63,12 +68,11 @@ class AlbumViewTestCase(TestCase):
         self.assertContains(self.response, self.photo.title)
 
     def test_album_shows_in_library(self):
-        _ = self.client.get(resolve_url('auth_login'), {
+        _ = self.client.post(resolve_url('auth_login'), {
             'username': self.user.username,
             'password': "password",
         })
         library_response = self.client.get(resolve_url('library'))
-        import pdb; pdb.set_trace()
         self.assertContains(library_response, resolve_url('albums', album_id=self.album.id))
 
 
