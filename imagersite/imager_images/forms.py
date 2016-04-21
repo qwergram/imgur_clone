@@ -14,7 +14,7 @@ class NewAlbum(forms.ModelForm):
         model = Album
         fields = ['title', 'description', 'published', 'photos']
 
-    def __init__(self, *args, profile_=None, **kwargs):
+    def __init__(self, profile_=None, *args, **kwargs):
         super(NewAlbum, self).__init__(*args, **kwargs)
         self.fields['photos'].queryset = self.fields['photos'].queryset.filter(owner=profile_)
 
