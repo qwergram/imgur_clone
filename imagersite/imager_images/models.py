@@ -1,3 +1,4 @@
+# coding=utf-8
 from __future__ import unicode_literals
 from django.db import models
 from imager_profile.models import ImagerProfile
@@ -46,13 +47,12 @@ class Album(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     published = models.CharField(choices=PRIVACY_CHOICES, max_length=255)
-    date_uploaded = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-    date_published = models.DateTimeField(blank=True)
+    date_uploaded = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    date_modified = models.DateTimeField(auto_now=True, null=True)
+    date_published = models.DateTimeField(null=True, blank=True)
 
     photos = models.ManyToManyField('Photo', related_name='starred_in')
     cover_photo = models.ForeignKey(Photo, blank=True, null=True)
-
 
     @property
     def latest_modified(self):
