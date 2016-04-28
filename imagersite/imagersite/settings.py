@@ -130,6 +130,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = './'
+STATIC_ROOT = './static/'
 
 
 # HMAC Registration Settings
