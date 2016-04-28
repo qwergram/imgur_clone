@@ -81,11 +81,11 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('NAME', 'titan'),
-        'USER': os.environ.get('USER', 'titan'),
-        'PASSWORD': os.environ.get('PASSWORD', 'password'),
-        'HOST': os.environ.get('HOST', '127.0.0.1'),
-        'PORT': os.environ.get('PORT', 5432)
+        'NAME': os.environ.get('DB_NAME', 'titan'),
+        'USER': os.environ.get('DB_USER', 'titan'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'password'),
+        'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('DB_PORT', 5432)
     }
 }
 
