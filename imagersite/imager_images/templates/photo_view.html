@@ -7,6 +7,6 @@
 {% block title %}{{photo.title}}{% endblock %}
 {% block h2 %}
     "{{photo.title}}" by {{photo.owner.user.username}}
-    {% if photo.date_published %}Published {{photo.date_published}}{% endif %}
+    {% if photo.date_published %}<br>Published {{photo.date_published}}{% endif %}
 {% endblock %}
 {% block desc %}{{photo.description}}{% endblock %}
