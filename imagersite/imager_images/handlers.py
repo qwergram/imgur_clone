@@ -11,6 +11,6 @@ def set_published_date(sender, **kwargs):
     current value and the value of the PUBLISHED field"""
     if sender.published == PUBLIC:
         if not sender.date_published:
-            sender.date_published = datetime.utcnow()
+            sender.date_published = datetime.now()
     else:
         sender.date_published = None
