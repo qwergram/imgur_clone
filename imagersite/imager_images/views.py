@@ -108,6 +108,12 @@ def photo_edit(request, photo_id):
             else:
                 # photo is not owned by this user
                 raise HttpResponseForbidden
+        else:
+            return render(
+                request,
+                "photo_upload.html",
+                {"form": form, "what": "photo"}
+            )
     else:
         photo = get_object_or_404(Photo, id=photo_id)
         if request.user.profile == photo.owner:
