@@ -58,6 +58,7 @@ def profile_edit(request):
             return render(
                 request, "profile.html",
                 {
+                    'profile': profile,
                     'form': form,
                     'show_edits': True,
                     'photos': Photo.objects.filter(owner=profile)
@@ -68,6 +69,7 @@ def profile_edit(request):
             request,
             "profile.html",
             {
+                'profile': profile,
                 "form": EditProfile(
                     initial={
                         "camera": profile.camera,
