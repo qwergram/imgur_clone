@@ -36,7 +36,7 @@ def photo_view(request, photo_id=None):
 @login_required
 def album_create(request):
     if request.method == 'POST':
-        form = NewAlbum(request.POST, profile_=request.user.profile)
+        form = NewAlbum(request.user.profile, request.POST)
         if form.is_valid():
             album = Album.objects.create(
                 owner=request.user.profile,
@@ -55,7 +55,7 @@ def album_create(request):
             )
     else:
         print(Photo.objects.filter(owner__id=request.user.profile.id))
-        form = NewAlbum(profile_=request.user.profile)
+        form = NewAlbum(request.user.profile)
         return render(
             request,
             "photo_upload.html",
