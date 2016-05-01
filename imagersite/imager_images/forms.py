@@ -22,4 +22,4 @@ class NewAlbum(forms.ModelForm):
 class EditPhoto(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = ['title', 'description', 'published', 'photo']
+        fields = ['title', 'description', 'published']
