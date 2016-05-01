@@ -10,10 +10,10 @@
 		<title>{{how}} {{what}}</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<!--[if lte IE 8]><script src="{% static "imager_images/album/assets/js/ie/html5shiv.js" %}"></script><![endif]-->
-		<link rel="stylesheet" href="{% static "imager_images/upload/assets/css/main.css" %}" />
-		<!--[if lte IE 8]><link rel="stylesheet" href="{% static "imager_images/album/assets/css/ie8.css" %}" /><![endif]-->
-		<!--[if lte IE 9]><link rel="stylesheet" href="{% static "imager_images/album/assets/css/ie9.css" %}" /><![endif]-->
+		<!--[if lte IE 8]><script src="{% static 'imager_images/album/assets/js/ie/html5shiv.js' %}"></script><![endif]-->
+		<link rel="stylesheet" href="{% static 'imager_images/upload/assets/css/main.css' %}" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="{% static 'imager_images/album/assets/css/ie8.css' %}" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="{% static 'imager_images/album/assets/css/ie9.css' %}" /><![endif]-->
 		<style>
 			html {
 				background-color: #fff;
@@ -37,7 +37,7 @@
 					<div><input type="submit" value="{{how}}" /></div>
 				</form>
 			{% else %}
-				<a href="{% url "auth_login" %}" class="button">Login</a>
+				<a href="{% url 'auth_login' %}" class="button">Login</a>
 			{% endif %}
 
 		<!-- Footer -->
@@ -54,7 +54,7 @@
 			</footer>
 
 		<!-- Scripts -->
-			<!--[if lte IE 8]><script src="{% static "imager_images/album/assets/js/ie/respond.min.js" %}"></script><![endif]-->
+			<!--[if lte IE 8]><script src="{% static 'imager_images/album/assets/js/ie/respond.min.js' %}"></script><![endif]-->
 			<!-- <script src="{% static "imager_images/upload/assets/js/main.js" %}"></script> -->
 
 	</body>
