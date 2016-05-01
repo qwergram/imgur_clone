@@ -51,7 +51,7 @@ def album_create(request):
             return render(
                 request,
                 "photo_upload.html",
-                {'form': form, 'what': 'album'}
+                {'form': form, "what": "a photo", "how": "Create"}
             )
     else:
         print(Photo.objects.filter(owner__id=request.user.profile.id))
@@ -59,7 +59,7 @@ def album_create(request):
         return render(
             request,
             "photo_upload.html",
-            {"form": form, "what": "album"}
+            {"form": form, "what": "a photo", "how": "Create"}
         )
 
 
@@ -81,13 +81,13 @@ def photo_create(request):
             return render(
                 request,
                 "photo_upload.html",
-                {'form': form, 'what': "photo"}
+                {'form': form, "what": "a photo", "how": "Upload"}
             )
     else:
         return render(
             request,
             "photo_upload.html",
-            {"form": NewImage(), "what": "photo"}
+            {"form": NewImage(), "what": "a photo", "how": "Upload"}
         )
 
 
@@ -112,7 +112,7 @@ def photo_edit(request, photo_id):
             return render(
                 request,
                 "photo_upload.html",
-                {"form": form, "what": "photo"}
+                {"form": form, "what": "a photo", "how": "Edit"}
             )
     else:
         photo = get_object_or_404(Photo, id=photo_id)
@@ -127,7 +127,7 @@ def photo_edit(request, photo_id):
                         "published": photo.published,
                         "photo": photo.photo,
                     }),
-                    "what": "photo"
+                    "what": "a photo", "how": "Edit"
                 }
             )
         else:
