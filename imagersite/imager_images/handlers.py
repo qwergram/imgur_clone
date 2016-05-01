@@ -6,11 +6,11 @@ from datetime import datetime
 
 
 @receiver(pre_save, sender=Photo)
-def set_published_date(sender, **kwargs):
+def set_published_date(sender, instance=None, **kwargs):
     """Set the date_published field to the appropriate value based on its
     current value and the value of the PUBLISHED field"""
-    if sender.published == PUBLIC:
-        if not sender.date_published:
-            sender.date_published = datetime.now()
+    if instance.published == PUBLIC:
+        if not instance.date_published:
+            instance.date_published = datetime.now()
     else:
-        sender.date_published = None
+        instance.date_published = None
