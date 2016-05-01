@@ -10,10 +10,10 @@
 		<title>{% if profile %}{{profile.user.username}}'s profile{% else %}Imgur Clone{% endif %}</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="{% static "imager_profile/assets/js/ie/html5shiv.js" %}"></script><![endif]-->
-		<link rel="stylesheet" href="{% static "imager_profile/assets/css/main.css" %}" />
-		<!--[if lte IE 9]><link rel="stylesheet" href="{% static "imager_profile/assets/css/ie9.css" %}" /><![endif]-->
-		<!--[if lte IE 8]><link rel="stylesheet" href="{% static "imager_profile/assets/css/ie8.css" %}" /><![endif]-->
+		<!--[if lte IE 8]><script src="{% static 'imager_profile/assets/js/ie/html5shiv.js' %}"></script><![endif]-->
+		<link rel="stylesheet" href="{% static 'imager_profile/assets/css/main.css' %}" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="{% static 'imager_profile/assets/css/ie9.css' %}" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="{% static 'imager_profile/assets/css/ie8.css' %}" /><![endif]-->
 	</head>
 	<body>
 
@@ -23,9 +23,9 @@
 				<!-- Header -->
 					<header id="header">
 						<h1>{% block title %}<a href="/"><strong>Imager Clone</strong> by Norton and Kent</a>{% endblock %}
-							| <strong><a href="{% url "homepage" %}">Home</a></strong>
-							| <strong><a href="{% url "library" %}">Library</a></strong>
-							| <strong><a href="{% url "profile" %}">Profile</a></strong>
+							| <strong><a href="{% url 'homepage' %}">Home</a></strong>
+							| <strong><a href="{% url 'library' %}">Library</a></strong>
+							| <strong><a href="{% url 'profile' %}">Profile</a></strong>
 						</h1>
 						<nav>
 							<ul>
@@ -38,7 +38,9 @@
 					<div id="main">
 						{% block photos %}
 						<article class="thumb">
-							<a href="{% url 'photo_create' %}" class="image"><img src="{% static "imager_profile/assets/images/fulls/01.jpg"}" alt="" /></a>
+							<a href="{% url 'photo_create' %}" class="image">
+								<img src="{% static 'imager_profile/assets/images/fulls/01.jpg' %}" alt="" />
+							</a>
 							<h2>{{photo.title}}</h2>
 						</article>
 						{% endblock %}
@@ -61,10 +63,10 @@
 				          <a href="{% url 'photo_create' %}" class="button">Upload Image</a><br/>
 				          <a href="{% url 'album_create' %}" class="button">Create Album</a><br/>
 									{% if user.is_authenticated %}
-										<a href="{% url "auth_logout" %}" class="button">Log Out</a><br/>
+										<a href="{% url 'auth_logout' %}" class="button">Log Out</a><br/>
 									{% else %}
-										<a href="{% url "auth_login" %}" class="button">Log In</a><br/>
-										<a href="{% url "registration_register" %}" class="button">Register</a><br/>
+										<a href="{% url 'auth_login' %}" class="button">Log In</a><br/>
+										<a href="{% url 'registration_register' %}" class="button">Register</a><br/>
 									{% endif %}
 								</section>
 								<p class="copyright">
@@ -77,11 +79,11 @@
 			</div>
 
 		<!-- Scripts -->
-		<script src="{% static "imager_profile/assets/js/jquery.min.js" %}"></script>
-		<script src="{% static "imager_profile/assets/js/skel.min.js" %}"></script>
-		<script src="{% static "imager_profile/assets/js/util.js" %}"></script>
-		<!--[if lte IE 8]><script src="{% static "imager_profile/assets/js/ie/respond.min.js" %}"></script><![endif]-->
-		<script src="{% static "imager_profile/assets/js/main.js" %}"></script>
+		<script src="{% static 'imager_profile/assets/js/jquery.min.js' %}"></script>
+		<script src="{% static 'imager_profile/assets/js/skel.min.js' %}"></script>
+		<script src="{% static 'imager_profile/assets/js/util.js' %}"></script>
+		<!--[if lte IE 8]><script src="{% static 'imager_profile/assets/js/ie/respond.min.js' %}"></script><![endif]-->
+		<script src="{% static 'imager_profile/assets/js/main.js' %}"></script>
 
 	</body>
 </html>
