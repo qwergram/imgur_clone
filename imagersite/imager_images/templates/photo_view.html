@@ -8,5 +8,6 @@
 {% block h2 %}
     "{{photo.title}}" by {{photo.owner.user.username}}
     {% if photo.date_published %}<br>Published {{photo.date_published}}{% endif %}
+    {% if request.user.profile == photo.owner %}<br><a href="{% url 'photo_edit' photo.id %}">Edit</a>{% endif %}
 {% endblock %}
 {% block desc %}{{photo.description}}{% endblock %}
