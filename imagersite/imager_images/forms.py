@@ -23,3 +23,9 @@ class EditPhoto(forms.ModelForm):
     class Meta:
         model = Photo
         fields = ['title', 'description', 'published']
+
+
+class EditAlbum(forms.ModelForm):
+    class Meta:
+        model = Album
+        fields = ['title', 'description', 'published', 'photos']

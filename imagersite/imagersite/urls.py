@@ -26,7 +26,8 @@ from imager_images.views import (
     photo_view,
     album_create,
     photo_create,
-    photo_edit
+    photo_edit,
+    album_edit,
 )
 
 
@@ -37,7 +38,7 @@ image_patterns = [
     url(r'^images/albums/add/$', album_create, name="album_create"),
     url(r'^images/photos/add/$', photo_create, name="photo_create"),
     url(r'^images/photos/(?P<photo_id>\d+)/edit/', photo_edit, name="photo_edit"),
-
+    url(r'^images/photos/(?P<album_id>\d+)/edit/', album_edit, name="album_edit"),
 ]
 
 hmac_patterns = [
