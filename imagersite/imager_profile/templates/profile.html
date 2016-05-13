@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main_content %}
+<h1>{{profile.user}}'s profile</h1>
+{% if show_edits %}
+  <form method="post">
+    {{form}}
+    {% csrf_token %}
+    <input type="submit" />
+  </form>
+{% endif %}
+{% endblock %}
+
+{% block photos %}
+  <!--<h1>YOU ARE AT PROFILES</h1>-->
+  {% for photo in photos %}
+    <article class="thumb">
+      <a href="{% url 'photos_view' photo.id %}" class="image"><img src="{{photo.photo.url}}" alt="" /></a>
+      <h2>{{photo.title}}</h2>
+    </article>
+  {% endfor %}
+{% endblock %}

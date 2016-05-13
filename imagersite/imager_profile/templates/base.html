@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+	Multiverse by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>{% if profile %}{{profile.user.username}}'s profile{% else %}Imgur Clone{% endif %}</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="{% static 'imager_profile/assets/js/ie/html5shiv.js' %}"></script><![endif]-->
+		<link rel="stylesheet" href="{% static 'imager_profile/assets/css/main.css' %}" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="{% static 'imager_profile/assets/css/ie9.css' %}" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="{% static 'imager_profile/assets/css/ie8.css' %}" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1>{% block title %}<a href="/"><strong>Imager Clone</strong> by Norton and Kent</a>{% endblock %}
+							| <strong><a href="{% url 'homepage' %}">Home</a></strong>
+							| <strong><a href="{% url 'library' %}">Library</a></strong>
+							| <strong><a href="{% url 'profile' %}">Profile</a></strong>
+						</h1>
+						<nav>
+							<ul>
+								<li><a href="#footer" class="icon fa-info-circle">About</a></li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Main -->
+					<div id="main">
+						{% block photos %}
+						<article class="thumb">
+							<a href="{% url 'photo_create' %}" class="image">
+								<img src="{% static 'imager_profile/assets/images/fulls/01.jpg' %}" alt="" />
+							</a>
+							<h2>{{photo.title}}</h2>
+						</article>
+						{% endblock %}
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer" class="panel">
+						<div class="inner split">
+							<div>
+								<section>
+									<h2>{% block h2 %}Hello {{user.username}}{% endblock %}</h2>
+									<p>
+										{% block main_content %}
+											<h1>Ooops! Something went wrong!</h1>
+										{% endblock %}
+									</p>
+								</section>
+								<section>
+				          <a href="{% url 'library' %}" class="button">Library</a><br/>
+				          <a href="{% url 'photo_create' %}" class="button">Upload Image</a><br/>
+				          <a href="{% url 'album_create' %}" class="button">Create Album</a><br/>
+									{% if user == profile.user %}
+										<a href="{% url 'profile_edit' %}" class="button">Edit Profile</a><br>
+									{% endif %}
+									{% if user.is_authenticated %}
+										<a href="{% url 'auth_logout' %}" class="button">Log Out</a><br/>
+									{% else %}
+										<a href="{% url 'auth_login' %}" class="button">Log In</a><br/>
+										<a href="{% url 'registration_register' %}" class="button">Register</a><br/>
+									{% endif %}
+								</section>
+								<p class="copyright">
+									&copy; Norton & Kent. Design: <a href="http://html5up.net">HTML5 UP</a>.
+								</p>
+							</div>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+		<script src="{% static 'imager_profile/assets/js/jquery.min.js' %}"></script>
+		<script src="{% static 'imager_profile/assets/js/skel.min.js' %}"></script>
+		<script src="{% static 'imager_profile/assets/js/util.js' %}"></script>
+		<!--[if lte IE 8]><script src="{% static 'imager_profile/assets/js/ie/respond.min.js' %}"></script><![endif]-->
+		<script src="{% static 'imager_profile/assets/js/main.js' %}"></script>
+
+	</body>
+</html>
